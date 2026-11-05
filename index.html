@@ -3,446 +3,561 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>87dance / BETHEBLUE ARCHIVE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>87dance SETLIST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
-
 :root {
-  --bg: #ffffff;
-  --ink: #111111;
-  --accent: #111111;
-  --line: #dedede;
-  --muted: #888888;
-  --card: #f2f2f2;
+  --black:#111;
+  --gray:#777;
+  --light:#e8e8e8;
+  --paper:#fafafa;
 }
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans','Noto Sans KR',sans-serif}
-header{padding:22px 6%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:21px;font-weight:900;letter-spacing:-1px}
-.logo span{color:var(--accent)}
-.header-label{font-size:10px;letter-spacing:2px;color:var(--muted)}
-main{max-width:1120px;margin:auto;padding:65px 6%}
-.eyebrow{font-size:11px;font-weight:800;letter-spacing:3px;color:var(--accent)}
-.hero{margin-bottom:65px}
-h1{font-size:clamp(55px,10vw,108px);line-height:.9;letter-spacing:-7px;margin:20px 0;font-weight:900}
-h1 span{color:var(--accent)}
-.subtitle{color:var(--muted);font-size:14px}
-.section{margin-bottom:70px}
-.section-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
-.section-title{font-size:25px;font-weight:900;letter-spacing:-1px}
-.month{font-size:25px;font-weight:800}
-.nav{display:flex;gap:8px}
-button{font-family:inherit}
-.nav button{width:40px;height:40px;background:none;border:1px solid var(--line);font-size:18px;cursor:pointer}
-.nav button:hover{background:var(--ink);color:white}
-.weekdays,.calendar{display:grid;grid-template-columns:repeat(7,1fr)}
-.weekdays div{text-align:center;padding:13px 0;font-size:10px;color:var(--muted);border-bottom:1px solid var(--line)}
-.day{height:82px;background:transparent;border:0;border-bottom:1px solid var(--line);cursor:pointer;position:relative;font-size:14px;color:var(--ink)}
-.day:hover{background:var(--card)}
-.day.selected{background:var(--ink);color:white}
-.day.has-show:after{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);position:absolute;bottom:12px;left:50%;transform:translateX(-50%)}
-.day.selected.has-show:after{background:white}
-.day.empty{cursor:default}
-.legend{font-size:11px;color:var(--muted);margin-top:12px}
-.dot{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:7px}
-.detail{border-top:2px solid var(--ink);padding-top:28px}
-.detail-date{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:800}
-.detail-title{font-size:clamp(25px,4vw,38px);font-weight:900;margin:12px 0}
-.meta{font-size:13px;color:var(--muted);line-height:2}
-.poster{width:100%;max-width:240px;aspect-ratio:3/4;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;margin:20px 0}
-.show-card{padding:25px 0;border-bottom:1px solid var(--line)}
-.setlist-head{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:2px;font-weight:800}
-.song{display:flex;align-items:center;gap:18px;padding:13px 5px;border-bottom:1px solid var(--line);font-size:14px}
-.song-num{width:25px;color:var(--accent);font-weight:800}
-.song.encore{background:#f2f2f2}
-.artist-filter{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
-.filter-btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:1px;cursor:pointer}
-.filter-btn.active,.filter-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
-.artist-tag{display:inline-block;border:1px solid var(--line);padding:5px 8px;margin:10px 0 4px;font-size:10px;font-weight:800;letter-spacing:1px}
-.encore-label{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:800;padding:18px 5px 5px}
-.duplicate{font-size:10px;color:var(--accent);margin-left:auto}
-.empty-message{color:var(--muted);padding:25px 0;font-size:13px}
-.search-section{border-top:2px solid var(--ink);padding-top:35px}
-.search-title{font-size:clamp(30px,5vw,48px);font-weight:900;letter-spacing:-2px;margin:10px 0 25px}
-.search-box{display:flex;border-bottom:2px solid var(--ink)}
-.search-box input{flex:1;min-width:0;background:none;border:0;padding:16px 5px;font:inherit;font-size:16px;outline:none}
-.search-box button{background:var(--accent);color:white;border:0;padding:0 25px;font-size:11px;font-weight:800;cursor:pointer}
-.search-hint{font-size:11px;color:var(--muted);margin:12px 0 20px}
-.result{padding:18px 5px;border-bottom:1px solid var(--line);cursor:pointer}
-.result:hover{background:var(--card)}
-.result small{color:var(--accent);font-weight:700;font-size:11px}
-.result strong{display:block;margin-top:5px}
-.result-info{font-size:12px;color:var(--muted);margin-top:5px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:45px}
-.stat{padding:22px 10px;border-right:1px solid var(--line)}
-.stat:last-child{border:0}
-.stat strong{font-size:30px;display:block}
-.stat span{font-size:10px;color:var(--muted);letter-spacing:1px}
-footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
-@media(max-width:600px){
- main{padding:45px 5%}
- h1{letter-spacing:-4px}
- header{padding:20px 5%}
- .day{height:59px}
- .stats{margin-top:30px}
- .section{margin-bottom:55px}
- .header-label{font-size:8px}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--paper);
+  color:var(--black);
+  font-family:'DM Sans','Noto Sans KR',sans-serif;
+}
+button,input { font:inherit; }
+button { cursor:pointer; }
+header {
+  padding:34px 6vw 25px;
+  border-bottom:1px solid var(--black);
+}
+.topline {
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  letter-spacing:2px;
+  color:var(--gray);
+}
+h1 {
+  font-size:clamp(38px,7vw,76px);
+  letter-spacing:-4px;
+  line-height:1;
+  margin:35px 0 12px;
+}
+.subtitle {
+  font-size:12px;
+  color:var(--gray);
+  letter-spacing:1px;
+}
+main {
+  max-width:1400px;
+  margin:auto;
+  padding:0 6vw 80px;
+}
+.filter-wrap {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:22px 0;
+  border-bottom:1px solid var(--light);
+  flex-wrap:wrap;
+}
+.filters { display:flex; gap:8px; flex-wrap:wrap; }
+.filter-btn {
+  border:1px solid #ccc;
+  background:transparent;
+  padding:9px 17px;
+  border-radius:30px;
+  font-size:11px;
+  letter-spacing:1px;
+}
+.filter-btn.active {
+  background:var(--black);
+  color:white;
+  border-color:var(--black);
+}
+.section { margin-top:48px; }
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:20px;
+}
+.section-heading h2 {
+  font-size:21px;
+  letter-spacing:-1px;
+  margin:0;
+}
+.section-heading span {
+  color:var(--gray);
+  font-size:11px;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--black);
+  border-bottom:1px solid var(--black);
+}
+.stat { padding:20px 15px 20px 0; }
+.stat + .stat {
+  border-left:1px solid var(--light);
+  padding-left:20px;
+}
+.stat-number { font-size:32px; font-weight:600; }
+.stat-label { font-size:10px; color:var(--gray); letter-spacing:1px; }
+.calendar {
+  border-top:1px solid var(--black);
+  padding-top:20px;
+}
+.calendar-nav {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+.calendar-nav h3 { margin:0; font-size:20px; }
+.calendar-nav button {
+  border:1px solid #ddd;
+  background:transparent;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+}
+.calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+.day-name {
+  text-align:center;
+  font-size:10px;
+  color:var(--gray);
+  padding:10px 0;
+}
+.day {
+  min-height:85px;
+  border-top:1px solid var(--light);
+  padding:8px 5px;
+  font-size:11px;
+}
+.day.muted { color:#bbb; }
+.day.today .date { background:var(--black); color:white; }
+.date {
+  display:inline-flex;
+  width:23px;
+  height:23px;
+  justify-content:center;
+  align-items:center;
+  border-radius:50%;
+}
+.event-dot {
+  display:block;
+  margin-top:5px;
+  font-size:9px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:var(--black);
+}
+.search-box {
+  width:100%;
+  border:0;
+  border-bottom:1px solid var(--black);
+  padding:14px 0;
+  background:transparent;
+  outline:none;
+  font-size:13px;
+}
+.performance-list { border-top:1px solid var(--black); }
+.performance-item {
+  padding:18px 0;
+  border-bottom:1px solid var(--light);
+  display:grid;
+  grid-template-columns:105px 1fr auto;
+  gap:20px;
+  align-items:center;
+}
+.performance-date { font-size:12px; }
+.performance-title { font-size:14px; font-weight:600; }
+.performance-info {
+  color:var(--gray);
+  font-size:10px;
+  margin-top:5px;
+}
+.artist-tag {
+  font-size:9px;
+  letter-spacing:1px;
+  border:1px solid #ccc;
+  padding:5px 9px;
+  border-radius:20px;
+}
+.empty {
+  padding:35px 0;
+  text-align:center;
+  font-size:12px;
+  color:var(--gray);
+}
+.search-result {
+  padding:15px 0;
+  border-bottom:1px solid var(--light);
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  font-size:12px;
+}
+.search-result small { color:var(--gray); }
+footer {
+  border-top:1px solid var(--black);
+  padding:25px 6vw;
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  color:var(--gray);
+  letter-spacing:1px;
+}
+@media(max-width:700px) {
+  header { padding:25px 5vw 20px; }
+  main { padding:0 5vw 60px; }
+  h1 { letter-spacing:-2px; }
+  .day { min-height:65px; padding:5px 2px; }
+  .event-dot { font-size:8px; }
+  .performance-item {
+    grid-template-columns:75px 1fr;
+    gap:10px;
+  }
+  .performance-item .artist-tag {
+    grid-column:2;
+    justify-self:start;
+  }
 }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="logo">87dance<span>.</span></div>
-  <div class="header-label">LIVE PERFORMANCE ARCHIVE</div>
+  <div class="topline">
+    <span>INDEPENDENT MUSIC ARCHIVE</span>
+    <span>EST. 2026</span>
+  </div>
+  <h1>87dance<br>SETLIST</h1>
+  <div class="subtitle">87dance & BETHEBLUE — LIVE PERFORMANCE ARCHIVE</div>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="eyebrow">MUSIC ARCHIVE / 001</div>
-    <h1>87dance<br><span>SETLIST.</span></h1>
-    <p class="subtitle">87dance & BETHEBLUE — a collection of live performances & memories.</p>
-  </section>
+  <div class="filter-wrap">
+    <div class="filters" id="artistFilters">
+      <button class="filter-btn active" data-artist="ALL">ALL</button>
+      <button class="filter-btn" data-artist="87dance">87DANCE</button>
+      <button class="filter-btn" data-artist="BETHEBLUE">BETHEBLUE</button>
+    </div>
+    <span style="font-size:10px;color:#777;letter-spacing:1px">
+      PERFORMANCE ARCHIVE
+    </span>
+  </div>
 
   <section class="section">
-    <div class="section-top">
-      <div>
-        <div class="eyebrow">PERFORMANCE CALENDAR</div>
-        <div class="month" id="monthTitle"></div>
-      </div>
-      <div class="nav">
-        <button id="prev" aria-label="이전 달">←</button>
-        <button id="next" aria-label="다음 달">→</button>
-      </div>
+    <div class="section-heading">
+      <h2>ARCHIVE DATA</h2>
+      <span>OVERVIEW</span>
     </div>
-    <div class="weekdays">
-      <div>SUN</div><div>MON</div><div>TUE</div>
-      <div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-    </div>
-    <div class="calendar" id="calendar"></div>
-    <div class="legend"><span class="dot"></span> PERFORMANCE</div>
-    <div class="artist-filter">
-      <button class="filter-btn active" data-filter="ALL">ALL</button>
-      <button class="filter-btn" data-filter="87dance">87dance</button>
-      <button class="filter-btn" data-filter="BETHEBLUE">BETHEBLUE</button>
-    </div>
-  </section>
-
-  <section class="section detail" id="detail">
-    <div class="eyebrow">SELECTED PERFORMANCE</div>
-    <div class="detail-date" id="detailDate">SELECT A DATE</div>
-    <div class="detail-title" id="detailTitle">날짜를 선택해 주세요.</div>
-    <div class="meta" id="detailMeta">공연이 있는 날짜를 선택하면 상세 정보가 나타납니다.</div>
-    <div id="showList"></div>
-  </section>
-
-  <section class="section search-section">
-    <div class="eyebrow">FIND YOUR SONG</div>
-    <div class="search-title">SEARCH SETLIST.</div>
-    <div class="search-box">
-      <input id="searchInput" type="search" placeholder="곡 제목, 별칭을 검색하세요">
-      <button id="searchBtn">SEARCH ↗</button>
-    </div>
-    <div class="search-hint">정식 제목, 한글 표기, 영문 표기, 별칭으로 검색할 수 있습니다.</div>
-    <div id="results" aria-live="polite"></div>
-  </section>
-
-  <section class="section">
-    <div class="eyebrow">ARCHIVE DATA</div>
-    <div class="section-title">ARCHIVE STATISTICS.</div>
     <div class="stats">
-      <div class="stat"><strong id="showCount">0</strong><span>SHOWS</span></div>
-      <div class="stat"><strong id="songCount">0</strong><span>UNIQUE SONGS</span></div>
-      <div class="stat"><strong id="trackCount">0</strong><span>TOTAL TRACKS</span></div>
+      <div class="stat">
+        <div class="stat-number" id="showCount">0</div>
+        <div class="stat-label">PERFORMANCES</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="songCount">0</div>
+        <div class="stat-label">UNIQUE SONGS</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" id="venueCount">0</div>
+        <div class="stat-label">VENUES</div>
+      </div>
     </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>PERFORMANCE CALENDAR</h2>
+      <span>MONTHLY ARCHIVE</span>
+    </div>
+    <div class="calendar">
+      <div class="calendar-nav">
+        <button id="prevMonth">←</button>
+        <h3 id="monthLabel"></h3>
+        <button id="nextMonth">→</button>
+      </div>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>SETLIST SEARCH</h2>
+      <span>SEARCH SONG TITLE</span>
+    </div>
+    <input class="search-box" id="searchInput"
+      placeholder="Search songs..." autocomplete="off">
+    <div id="searchResults"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-heading">
+      <h2>PERFORMANCE RECORDS</h2>
+      <span id="performanceLabel">0 RECORDS</span>
+    </div>
+    <div class="performance-list" id="performanceList"></div>
   </section>
 </main>
 
 <footer>
-  <span>87dance / BETHEBLUE ARCHIVE</span>
-  <span>MADE FOR MUSIC.</span>
+  <span>87DANCE SETLIST ARCHIVE</span>
+  <span>MADE FOR MUSIC</span>
 </footer>
 
 <script>
-// ======================================
-// 공연 및 곡 데이터
-// 실제 공연 정보를 이곳에 추가합니다.
-// ======================================
+
+// ==========================================
+// SONG DATABASE
+// ==========================================
 
 const songs = [
-  // 예시:
-  // {artist:"87dance", title:"곡 제목", aliases:["한글 표기","영문 표기","별칭"]},
-  // {artist:"BETHEBLUE", title:"곡 제목", aliases:["다른 표기"]}
+  // {artist:"87dance", title:"곡 제목", aliases:[]},
+  // {artist:"BETHEBLUE", title:"곡 제목", aliases:[]}
 ];
+
+// ==========================================
+// PERFORMANCE DATABASE
+// 보내주신 공연 32개를 등록했습니다.
+// ==========================================
 
 const performances = [
-  // 예시:
-  // {
-  //   id:1,
-  //   artist:"87dance", // "87dance" 또는 "BETHEBLUE"
-  //   date:"2026-11-05",
-  //   title:"공연명",
-  //   venue:"공연 장소",
-  //   time:"19:00", // 모르면 ""
-  //   poster:"", // 포스터 이미지 URL
-  //   setlist:[
-  //     {song:"곡 제목",encore:false},
-  //     {song:"앵콜곡",encore:true}
-  //   ]
-  // }
+  {id:1, artist:"87dance", date:"2026-01-30", title:"STAY WITH ME", venue:"클럽FF", time:"", poster:"", setlist:[]},
+  {id:2, artist:"87dance", date:"2026-02-08", title:"on the chill wave", venue:"현대카드 언더스테이지", time:"", poster:"", setlist:[]},
+  {id:3, artist:"87dance", date:"2026-02-27", title:"라이브클럽데이", venue:"KT&G 상상마당 홍대", time:"", poster:"", setlist:[]},
+  {id:4, artist:"87dance", date:"2026-03-04", title:"PALCHILL 2026 CLUB TOUR #1", venue:"클럽온에어", time:"", poster:"", setlist:[]},
+  {id:5, artist:"87dance", date:"2026-03-06", title:"PALCHILL 2026 CLUB TOUR #2", venue:"공상온도", time:"", poster:"", setlist:[]},
+  {id:6, artist:"87dance", date:"2026-03-07", title:"PALCHILL 2026 CLUB TOUR #3", venue:"오방가르드", time:"", poster:"", setlist:[]},
+  {id:7, artist:"87dance", date:"2026-03-11", title:"PALCHILL 2026 CLUB TOUR #4", venue:"스페이스소다", time:"", poster:"", setlist:[]},
+  {id:8, artist:"87dance", date:"2026-03-13", title:"PALCHILL 2026 CLUB TOUR #5", venue:"생기스튜디오", time:"", poster:"", setlist:[]},
+  {id:9, artist:"87dance", date:"2026-03-14", title:"PALCHILL 2026 CLUB TOUR #6", venue:"처치앤댄스홀", time:"", poster:"", setlist:[]},
+  {id:10, artist:"87dance", date:"2026-03-18", title:"PALCHILL 2026 CLUB TOUR #7", venue:"언플러그드 홍대", time:"", poster:"", setlist:[]},
+  {id:11, artist:"87dance", date:"2026-03-20", title:"PALCHILL 2026 CLUB TOUR #8", venue:"채널1969", time:"", poster:"", setlist:[]},
+  {id:12, artist:"87dance", date:"2026-03-21", title:"도피페스타", venue:"무신사개러지", time:"", poster:"", setlist:[]},
+  {id:13, artist:"87dance", date:"2026-03-22", title:"PALCHILL 2026 CLUB TOUR #9·#10", venue:"인천맥주 호랑이", time:"", poster:"", setlist:[]},
+  {id:14, artist:"87dance", date:"2026-03-25", title:"PALCHILL 2026 CLUB TOUR #11", venue:"스페이스 한강", time:"", poster:"", setlist:[]},
+  {id:15, artist:"87dance", date:"2026-03-27", title:"ROMANTIC COMEDY", venue:"스페이스 브릭", time:"", poster:"", setlist:[]},
+  {id:16, artist:"87dance", date:"2026-03-29", title:"PALCHILL 2026 CLUB TOUR #12", venue:"클럽FF", time:"", poster:"", setlist:[]},
+  {id:17, artist:"87dance", date:"2026-04-05", title:"PALCHILL 2026 CLUB TOUR #13", venue:"스튜디오 로그", time:"", poster:"", setlist:[]},
+  {id:18, artist:"87dance", date:"2026-04-25", title:"PALCHILLTOWN", venue:"노들섬 라이브 하우스", time:"", poster:"", setlist:[]},
+  {id:19, artist:"87dance", date:"2026-04-26", title:"히어로락페스티벌", venue:"문화비축기지", time:"", poster:"", setlist:[]},
+  {id:20, artist:"87dance", date:"2026-05-02", title:"볕 든 자리", venue:"플렉스라운지", time:"", poster:"", setlist:[]},
+  {id:21, artist:"87dance", date:"2026-05-09", title:"톤스튜디오 라이브", venue:"톤스튜디오 서울", time:"", poster:"", setlist:[]},
+  {id:22, artist:"87dance", date:"2026-05-10", title:"레몬 뮤직 페스티벌", venue:"달서아트센터", time:"", poster:"", setlist:[]},
+  {id:23, artist:"87dance", date:"2026-05-14", title:"꿈에서 본 미러볼", venue:"무신사개러지", time:"", poster:"", setlist:[]},
+  {id:24, artist:"87dance", date:"2026-05-30", title:"뷰티풀민트라이프(BML)", venue:"문화비축기지", time:"", poster:"", setlist:[]},
+  {id:25, artist:"87dance", date:"2026-07-26", title:"원유니버스페스티벌", venue:"파라다이스시티", time:"", poster:"", setlist:[]},
+  {id:26, artist:"87dance", date:"2026-08-08", title:"87DAY", venue:"채널1969", time:"", poster:"", setlist:[]},
+  {id:27, artist:"87dance", date:"2026-08-14", title:"SUNSET PARTY", venue:"더클리프", time:"", poster:"", setlist:[]},
+  {id:28, artist:"87dance", date:"2026-08-15", title:"활기 프로젝트 vol.4", venue:"클럽인디 제주", time:"", poster:"", setlist:[]},
+  {id:29, artist:"87dance", date:"2026-08-28", title:"라이브클럽데이", venue:"클럽FF", time:"", poster:"", setlist:[]},
+  {id:30, artist:"87dance", date:"2026-09-06", title:"잔다리 페스타 / 잔다리 페스타 오프더레코드", venue:"스페이스 브릭 / 생기 스튜디오", time:"", poster:"", setlist:[]},
+  {id:31, artist:"87dance", date:"2026-09-11", title:"THE SOLUTIONS x 87DANCE", venue:"예스24 원더로크홀", time:"", poster:"", setlist:[]},
+  {id:32, artist:"87dance", date:"2026-09-19", title:"2026 경주 황금카니발", venue:"구.대왕시네마 3관", time:"", poster:"", setlist:[]}
 ];
 
-let activeArtist = "ALL";
+// ==========================================
+// PAGE LOGIC
+// ==========================================
 
-// 검색어 표준화: 대소문자 및 공백 차이 제거
-function normalize(value){
-  return value.toLocaleLowerCase('ko-KR').replace(/\s+/g,'').trim();
+let currentArtist = "ALL";
+let currentMonth = new Date(2026, 0, 1);
+
+const $ = id => document.getElementById(id);
+
+function artistMatches(item) {
+  return currentArtist === "ALL" || item.artist === currentArtist;
 }
 
-// 곡의 정식 제목 찾기
-function getSongTitle(query, artist){
-  const q=normalize(query);
-  return songs.find(song=>
-    (!artist || song.artist===artist) &&
-    [song.title,...(song.aliases||[])].some(alias=>normalize(alias)===q)
-  )?.title;
+function renderStats() {
+  const shows = performances.filter(artistMatches);
+  const filteredSongs = songs.filter(artistMatches);
+  const venues = new Set(shows.map(p => p.venue));
+
+  $("showCount").textContent = shows.length;
+  $("songCount").textContent = filteredSongs.length;
+  $("venueCount").textContent = venues.size;
 }
 
-// 월별 캘린더
-let current=new Date(new Date().getFullYear(),new Date().getMonth(),1);
-let selectedDate=null;
+function renderCalendar() {
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
 
-function renderCalendar(){
-  const year=current.getFullYear();
-  const month=current.getMonth();
-  document.getElementById('monthTitle').textContent=
-    `${year} / ${String(month+1).padStart(2,'0')}`;
+  $("monthLabel").textContent =
+    `${year}.${String(month+1).padStart(2,"0")}`;
 
-  const cal=document.getElementById('calendar');
-  cal.innerHTML='';
-  const first=new Date(year,month,1).getDay();
-  const total=new Date(year,month+1,0).getDate();
+  const firstDay = new Date(year,month,1).getDay();
+  const lastDate = new Date(year,month+1,0).getDate();
+  const prevLastDate = new Date(year,month,0).getDate();
 
-  for(let i=0;i<first;i++){
-    const blank=document.createElement('div');
-    blank.className='day empty';
-    cal.appendChild(blank);
-  }
+  const grid = $("calendarGrid");
+  grid.innerHTML = "";
 
-  for(let d=1;d<=total;d++){
-    const date=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const btn=document.createElement('button');
-    btn.className='day';
-    btn.textContent=d;
-
-    if(performances.some(p=>p.date===date && (activeArtist==="ALL" || p.artist===activeArtist)))btn.classList.add('has-show');
-    if(selectedDate===date)btn.classList.add('selected');
-
-    btn.addEventListener('click',()=>{
-      selectedDate=date;
-      renderCalendar();
-      renderDetails(date);
-    });
-    cal.appendChild(btn);
-  }
-}
-
-// 공연 상세 정보
-function renderDetails(date){
-  const items=performances.filter(p=>p.date===date && (activeArtist==="ALL" || p.artist===activeArtist));
-  document.getElementById('detailDate').textContent=date;
-  const title=document.getElementById('detailTitle');
-  const meta=document.getElementById('detailMeta');
-  const list=document.getElementById('showList');
-  list.innerHTML='';
-
-  if(!items.length){
-    title.textContent='NO PERFORMANCE';
-    meta.textContent='이 날짜에는 등록된 공연이 없습니다.';
-    return;
-  }
-
-  title.textContent=items.length===1?items[0].title:`${items.length} PERFORMANCES`;
-  meta.textContent=`${items.length}개의 공연 기록`;
-
-  items.forEach(p=>{
-    const card=document.createElement('div');
-    card.className='show-card';
-
-    const artistTag=document.createElement('div');
-    artistTag.className='artist-tag';
-    artistTag.textContent=p.artist || "ARTIST UNKNOWN";
-    card.appendChild(artistTag);
-
-    const info=document.createElement('div');
-    info.className='meta';
-    info.textContent=`${p.venue}  /  ${p.time}`;
-    card.appendChild(info);
-
-    if(p.poster){
-      const img=document.createElement('img');
-      img.src=p.poster;
-      img.alt=p.title+' 공연 포스터';
-      img.style.cssText='width:100%;max-width:240px;display:block;margin:20px 0';
-      card.appendChild(img);
-    }else{
-      const poster=document.createElement('div');
-      poster.className='poster';
-      poster.textContent='POSTER IMAGE';
-      card.appendChild(poster);
-    }
-
-    const head=document.createElement('div');
-    head.className='setlist-head';
-    head.innerHTML='<span>SETLIST</span><span>TRACKS</span>';
-    card.appendChild(head);
-
-    const normal=p.setlist.filter(t=>!t.encore);
-    const encore=p.setlist.filter(t=>t.encore);
-
-    const counts={};
-    p.setlist.forEach(t=>counts[t.song]=(counts[t.song]||0)+1);
-
-    function addTrack(track,index,isEncore){
-      const row=document.createElement('div');
-      row.className='song'+(isEncore?' encore':'');
-      const num=document.createElement('span');
-      num.className='song-num';
-      num.textContent=String(index+1).padStart(2,'0');
-      const name=document.createElement('span');
-      name.textContent=track.song;
-      row.append(num,name);
-
-      if(counts[track.song]>1){
-        const duplicate=document.createElement('span');
-        duplicate.className='duplicate';
-        duplicate.textContent='REPEAT ×'+counts[track.song];
-        row.appendChild(duplicate);
-      }
-      card.appendChild(row);
-    }
-
-    normal.forEach((t,i)=>addTrack(t,i,false));
-
-    if(encore.length){
-      const label=document.createElement('div');
-      label.className='encore-label';
-      label.textContent='ENCORE';
-      card.appendChild(label);
-      encore.forEach((t,i)=>addTrack(t,normal.length+i,true));
-    }
-    list.appendChild(card);
+  ["SUN","MON","TUE","WED","THU","FRI","SAT"].forEach(day => {
+    const el = document.createElement("div");
+    el.className = "day-name";
+    el.textContent = day;
+    grid.appendChild(el);
   });
-}
 
-// 곡 검색
-function searchSongs(){
-  const query=document.getElementById('searchInput').value.trim();
-  const results=document.getElementById('results');
-  results.innerHTML='';
+  const today = new Date();
 
-  if(!query){
-    results.textContent='검색어를 입력해 주세요.';
-    return;
-  }
+  for(let i=0;i<42;i++) {
+    let dateNum, dateObj, muted=false;
 
-  const q=normalize(query);
+    if(i<firstDay) {
+      dateNum=prevLastDate-firstDay+i+1;
+      dateObj=new Date(year,month-1,dateNum);
+      muted=true;
+    } else if(i>=firstDay+lastDate) {
+      dateNum=i-firstDay-lastDate+1;
+      dateObj=new Date(year,month+1,dateNum);
+      muted=true;
+    } else {
+      dateNum=i-firstDay+1;
+      dateObj=new Date(year,month,dateNum);
+    }
 
-  const matched=songs.filter(song=>
-    (activeArtist==="ALL" || song.artist===activeArtist) &&
-    [song.title,...(song.aliases||[])].some(alias=>
-      normalize(alias)===q ||
-      normalize(alias).includes(q)
-    )
-  );
+    const dateString =
+      `${dateObj.getFullYear()}-${String(dateObj.getMonth()+1).padStart(2,"0")}-${String(dateObj.getDate()).padStart(2,"0")}`;
 
-  if(!matched.length){
-    results.textContent='검색 결과가 없습니다.';
-    return;
-  }
+    const cell=document.createElement("div");
+    cell.className="day"+(muted?" muted":"");
 
-  matched.forEach(song=>{
-    const history=performances.filter(p=>
-      p.setlist.some(t=>t.song===song.title) && p.artist===song.artist
+    if(dateObj.toDateString()===today.toDateString()) {
+      cell.classList.add("today");
+    }
+
+    const dateSpan=document.createElement("span");
+    dateSpan.className="date";
+    dateSpan.textContent=dateNum;
+    cell.appendChild(dateSpan);
+
+    const dayShows=performances.filter(p=>
+      p.date===dateString && artistMatches(p)
     );
 
-    const heading=document.createElement('div');
-    heading.className='result';
-    const name=document.createElement('strong');
-    name.textContent=song.title;
-    const count=document.createElement('div');
-    count.className='result-info';
-    count.textContent=`총 ${history.length}회 공연에서 연주`;
-    heading.append(name,count);
-    results.appendChild(heading);
-
-    history.forEach(p=>{
-      const row=document.createElement('div');
-      row.className='result';
-      const small=document.createElement('small');
-      small.textContent=(p.artist||"")+' / '+p.date+' / '+p.title;
-      const trackInfo=p.setlist
-        .map((t,i)=>({...t,index:i+1}))
-        .filter(t=>t.song===song.title)
-        .map(t=>`${t.index}번째${t.encore?' (ENCORE)':''}`)
-        .join(', ');
-
-      const detail=document.createElement('div');
-      detail.className='result-info';
-      detail.textContent=`${p.venue} · ${trackInfo}`;
-      row.append(small,detail);
-      row.addEventListener('click',()=>{
-        selectedDate=p.date;
-        current=new Date(
-          Number(p.date.slice(0,4)),
-          Number(p.date.slice(5,7))-1,1
-        );
-        renderCalendar();
-        renderDetails(p.date);
-        document.getElementById('detail').scrollIntoView({behavior:'smooth'});
-      });
-      results.appendChild(row);
+    dayShows.forEach(p=>{
+      const dot=document.createElement("span");
+      dot.className="event-dot";
+      dot.textContent="• "+p.title;
+      dot.title=p.title;
+      cell.appendChild(dot);
     });
-  });
+
+    grid.appendChild(cell);
+  }
 }
 
-// 통계
-function renderStats(){
-  const visibleShows=performances.filter(p=>activeArtist==="ALL" || p.artist===activeArtist);
-  const allTracks=visibleShows.flatMap(p=>p.setlist);
-  const unique=new Set(visibleShows.flatMap(p=>p.setlist.map(t=>(p.artist||"")+"::"+t.song)));
-  document.getElementById('showCount').textContent=visibleShows.length;
-  document.getElementById('songCount').textContent=unique.size;
-  document.getElementById('trackCount').textContent=allTracks.length;
+function escapeHTML(value) {
+  return String(value??"").replace(/[&<>"']/g,char=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
 }
 
-document.getElementById('prev').addEventListener('click',()=>{
-  current.setMonth(current.getMonth()-1);
-  renderCalendar();
-});
-document.getElementById('next').addEventListener('click',()=>{
-  current.setMonth(current.getMonth()+1);
-  renderCalendar();
-});
+function renderPerformances() {
+  const list=$("performanceList");
+  const filtered=performances
+    .filter(artistMatches)
+    .slice()
+    .sort((a,b)=>a.date.localeCompare(b.date));
 
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    activeArtist=btn.dataset.filter;
-    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b===btn));
-    renderCalendar();
-    if(selectedDate) renderDetails(selectedDate);
-    renderStats();
-    document.getElementById('results').innerHTML='';
+  $("performanceLabel").textContent=`${filtered.length} RECORDS`;
+
+  if(!filtered.length) {
+    list.innerHTML='<div class="empty">등록된 공연이 없습니다.</div>';
+    return;
+  }
+
+  list.innerHTML=filtered.map(p=>`
+    <div class="performance-item">
+      <div class="performance-date">${p.date.replaceAll("-",".")}</div>
+      <div>
+        <div class="performance-title">${escapeHTML(p.title)}</div>
+        <div class="performance-info">${escapeHTML(p.venue)}</div>
+      </div>
+      <span class="artist-tag">${escapeHTML(p.artist)}</span>
+    </div>
+  `).join("");
+}
+
+function renderSearch() {
+  const query=$("searchInput").value.trim().toLowerCase();
+  const result=$("searchResults");
+
+  if(!query) {
+    result.innerHTML="";
+    return;
+  }
+
+  const matched=songs.filter(song=>{
+    if(!artistMatches(song)) return false;
+    const terms=[song.title,...(song.aliases||[])];
+    return terms.some(term=>term.toLowerCase().includes(query));
   });
+
+  if(!matched.length) {
+    result.innerHTML='<div class="empty">검색 결과가 없습니다.</div>';
+    return;
+  }
+
+  result.innerHTML=matched.map(song=>`
+    <div class="search-result">
+      <span>${escapeHTML(song.title)}</span>
+      <small>${escapeHTML(song.artist)}</small>
+    </div>
+  `).join("");
+}
+
+function renderAll() {
+  renderStats();
+  renderCalendar();
+  renderPerformances();
+  renderSearch();
+}
+
+$("artistFilters").addEventListener("click",event=>{
+  const button=event.target.closest("button[data-artist]");
+  if(!button) return;
+
+  currentArtist=button.dataset.artist;
+
+  document.querySelectorAll(".filter-btn").forEach(btn=>{
+    btn.classList.toggle("active",btn===button);
+  });
+
+  renderAll();
 });
 
-document.getElementById('searchBtn').addEventListener('click',searchSongs);
-document.getElementById('searchInput').addEventListener('keydown',e=>{
-  if(e.key==='Enter')searchSongs();
+$("prevMonth").addEventListener("click",()=>{
+  currentMonth=new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth()-1,
+    1
+  );
+  renderCalendar();
 });
 
-renderCalendar();
-renderStats();
+$("nextMonth").addEventListener("click",()=>{
+  currentMonth=new Date(
+    currentMonth.getFullYear(),
+    currentMonth.getMonth()+1,
+    1
+  );
+  renderCalendar();
+});
+
+$("searchInput").addEventListener("input",renderSearch);
+
+renderAll();
+
 </script>
 </body>
 </html>
