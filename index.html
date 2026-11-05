@@ -468,8 +468,8 @@ footer {
 
 <section class="search-area">
   <div class="search-box">
-    <span class="mono">â</span>
-    <input id="searchInput" type="search" placeholder="ê³µì°ëª, ì¥ì, ê³¡ëª ê²ì">
+    <span class="mono">⌕</span>
+    <input id="searchInput" type="search" placeholder="공연명, 장소, 곡명 검색">
     <button id="clearSearch">CLEAR</button>
   </div>
   <div id="searchResults" class="search-results"></div>
@@ -484,13 +484,13 @@ footer {
   <div class="calendar-wrap">
     <div class="calendar-top">
       <div class="month-label" id="monthLabel">
-        <select id="yearSelect" aria-label="ì°ë ì í"></select>
+        <select id="yearSelect" aria-label="연도 선택"></select>
         <span class="month-separator">.</span>
-        <select id="monthSelect" aria-label="ì ì í"></select>
+        <select id="monthSelect" aria-label="월 선택"></select>
       </div>
       <div class="month-nav">
-        <button id="prevMonth" aria-label="ì´ì  ë¬">â</button>
-        <button id="nextMonth" aria-label="ë¤ì ë¬">â</button>
+        <button id="prevMonth" aria-label="이전 달">←</button>
+        <button id="nextMonth" aria-label="다음 달">→</button>
       </div>
     </div>
     <div class="calendar" id="calendar"></div>
@@ -498,331 +498,331 @@ footer {
 
   <div class="selected-area" id="selectedArea">
     <div class="selected-heading">
-      <div class="selected-date" id="selectedDate">ë ì§ë¥¼ ì íí´ì£¼ì¸ì</div>
+      <div class="selected-date" id="selectedDate">날짜를 선택해주세요</div>
       <div class="selected-count" id="selectedCount"></div>
     </div>
 
     <div id="selectedEvents">
       <div class="empty-message">
-        ìºë¦°ëìì ê³µì° ë ì§ë¥¼ ì ííë©´ ê³µì° ì ë³´ê° íìë©ëë¤.
+        캘린더에서 공연 날짜를 선택하면 공연 정보가 표시됩니다.
       </div>
     </div>
 
     <div id="details" class="details"></div>
 
     <button id="reopenDetail" class="reopen-detail">
-      VIEW SETLIST â
+      VIEW SETLIST ↗
     </button>
   </div>
 </section>
 
-<footer>87DANCE SETLIST ARCHIVE â 2026</footer>
+<footer>87DANCE SETLIST ARCHIVE — 2026</footer>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
-// !ê³¡ëª = ìì½ë¥´
-// ~ê³¡ëª = íì ëë ê²ì¤í¸ ë¬´ë
+// !곡명 = 앙코르
+// ~곡명 = 협업 또는 게스트 무대
 let performances = [
 {
 date:"2026-01-03",
 title:"ROMANTIC COMEDY by 87dance & Vulgar Savior",
 venue:"SUB LIVE Taipei",
 artist:"87dance",
-songs:`Check in|How can i forget you girl|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|Zzz|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|RANDOM BOX|Beautiful Complex|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|even if fall into a fail|ì¬íë (Saffron)|ì²­ìëê²½ (éè²æ±äº¬)|devil`
+songs:`Check in|How can i forget you girl|러브 인 발코니 (love in balcony)|candy|Zzz|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|RANDOM BOX|Beautiful Complex|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|even if fall into a fail|사프란 (Saffron)|청색동경 (青色東京)|devil`
 },
 {
 date:"2026-01-04",
 title:"87DANCE ASIA TOUR 2025 : KAOHSIUNG",
-venue:"Paramount Bar ç¾æ¨ééé¤¨",
+venue:"Paramount Bar 百樂門酒館",
 artist:"87dance",
-songs:`ì ë ¹ (Ghosts are bored)|How can i forget you girl|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|Zzz|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|RANDOM BOX|Beautiful Complex|Hush|mush|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|even if fall into a fail|devil|My Jinji (cover)|ì¬íë (Saffron)|!ì²­ìëê²½ (éè²æ±äº¬)|!ëë¦¼ìë¹ì¤ (dream service)|!Beautiful Complex`
+songs:`유령 (Ghosts are bored)|How can i forget you girl|러브 인 발코니 (love in balcony)|candy|Zzz|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|RANDOM BOX|Beautiful Complex|Hush|mush|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|even if fall into a fail|devil|My Jinji (cover)|사프란 (Saffron)|!청색동경 (青色東京)|!드림서비스 (dream service)|!Beautiful Complex`
 },
 {
 date:"2026-01-09",
 title:"Goldline Medley",
-venue:"ìê¸° ì¤íëì¤",
+venue:"생기 스튜디오",
 artist:"BETHEBLUE",
-songs:`ì ë ¹ (Ghosts are bored)|How can i forget you girl|Duck boat|4DL (four-dimensional love)|even if fall into a fail|candy|ë¯¸ë°ë§¤ê³¡|Beautiful Complex|Youth Heritage`
+songs:`유령 (Ghosts are bored)|How can i forget you girl|Duck boat|4DL (four-dimensional love)|even if fall into a fail|candy|미발매곡|Beautiful Complex|Youth Heritage`
 },
 {
 date:"2026-01-09",
-title:"Hans. (With ë°ì±í¸ of 87dance) [Goldline Medley]",
-venue:"ìê¸° ì¤íëì¤",
-artist:"Hans. (With ë°ì±í¸ of 87dance)",
+title:"Hans. (With 박성호 of 87dance) [Goldline Medley]",
+venue:"생기 스튜디오",
+artist:"Hans. (With 박성호 of 87dance)",
 songs:``
 },
 {
 date:"2026-01-30",
 title:"STAY WITH ME",
-venue:"í´ë½FF",
+venue:"클럽FF",
 artist:"87dance",
-songs:`Hush|mush|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Nylon|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|ì²­ìëê²½ (éè²æ±äº¬)|Beautiful Complex|devil|Youth Heritage`
+songs:`Hush|mush|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Nylon|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|청색동경 (靑色東京)|Beautiful Complex|devil|Youth Heritage`
 },
 {
 date:"2026-02-08",
 title:"on the chill wave",
-venue:"íëì¹´ë ì¸ëì¤íì´ì§",
+venue:"현대카드 언더스테이지",
 artist:"87dance",
-songs:`Smokin blue|iBoy|ì¨ëª½í¤ (Seamonkey)|Maybe I|Passing Love (feat. íë¤í of OurR)|ë°ë§|Inkwater|ë² ì´í (Barefoot)|Puppet|I Wanna Stay With You|ì ë ¹ (Ghosts are bored)|ëì ë ì¬ì´ì ëì´ì°ê¸°|And other days|Soldout smile|ì¬íë (Saffron)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|ëì ë¬í½ì´ (city snail)|ì¼íì± (a night person)|ì²­ìëê²½ (éè²æ±äº¬)|Duck boat|RANDOM BOX|Beautiful Complex|!Youth Heritage|!Wake Me Up When September Ends (cover)`
+songs:`Smokin blue|iBoy|씨몽키 (Seamonkey)|Maybe I|Passing Love (feat. 홍다혜 of OurR)|반말|Inkwater|베어풋 (Barefoot)|Puppet|I Wanna Stay With You|유령 (Ghosts are bored)|너와 나 사이에 띄어쓰기|And other days|Soldout smile|사프란 (Saffron)|러브 인 발코니 (love in balcony)|도시 달팽이 (city snail)|야행성 (a night person)|청색동경 (青色東京)|Duck boat|RANDOM BOX|Beautiful Complex|!Youth Heritage|!Wake Me Up When September Ends (cover)`
 },
 {
 date:"2026-02-27",
-title:"ë¼ì´ë¸í´ë½ë°ì´",
-venue:"KT&G ììë§ë¹ íë",
+title:"라이브클럽데이",
+venue:"KT&G 상상마당 홍대",
 artist:"87dance",
-songs:`Nylon|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ì²­ìëê²½ (éè²æ±äº¬)|Zzz|YOU'RE MY CAKE|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|Duck Boat|Beautiful Complex|devil`
+songs:`Nylon|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|청색동경 (青色東京)|Zzz|YOU'RE MY CAKE|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|Duck Boat|Beautiful Complex|devil`
 },
 {
 date:"2026-03-04",
 title:"PALCHILL 2026 CLUB TOUR #1",
-venue:"í´ë½ì¨ìì´",
+venue:"클럽온에어",
 artist:"87dance",
-songs:`Fly Me to the Moon (cover)|ì¼íì± (a night person)|4DL (four-dimensional love)|ì²­ìëê²½ (éè²æ±äº¬)|Smileless|Hush|ì·¨íì§ ììë (Without get drink)|ëì ë ì¬ì´ì ëì´ì°ê¸°|even if fall into a fail|ROM-COM (feat. Vulgar Savior)|Duck Boat|Nylon|Inkwater|Zzz|devil|ë¹ëë¸ë£¨ ë² ì´ì¤|Wake Me Up When September Ends (cover)|Wake Me Up When September Ends (cover) (ì´ì ì´)|Lover Boy (cover)`
+songs:`Fly Me to the Moon (cover)|야행성 (a night person)|4DL (four-dimensional love)|청색동경 (青色東京)|Smileless|Hush|취하지 않아도 (Without get drink)|너와 나 사이에 띄어쓰기|even if fall into a fail|ROM-COM (feat. Vulgar Savior)|Duck Boat|Nylon|Inkwater|Zzz|devil|비더블루 베이스|Wake Me Up When September Ends (cover)|Wake Me Up When September Ends (cover) (이정열)|Lover Boy (cover)`
 },
 {
 date:"2026-03-06",
 title:"PALCHILL 2026 CLUB TOUR #2",
-venue:"ê³µìì¨ë",
+venue:"공상온도",
 artist:"87dance",
-songs:`ì·¨íì§ ììë (Without get drink)|Smokin blue|iBoy|ì¨ëª½í¤ (Seamonkey)|Maybe I|ì¼íì± (a night person)|ì ë ¹ (Ghosts are bored)|How can i forget you girl|Passing Love (feat. íë¤í of OurR)|ì¬íë (Saffron)|ì²­ìëê²½ (éè²æ±äº¬)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|RANDOM BOX|devil|!ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|!Beautiful Complex`
+songs:`취하지 않아도 (Without get drink)|Smokin blue|iBoy|씨몽키 (Seamonkey)|Maybe I|야행성 (a night person)|유령 (Ghosts are bored)|How can i forget you girl|Passing Love (feat. 홍다혜 of OurR)|사프란 (Saffron)|청색동경 (青色東京)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|RANDOM BOX|devil|!러브 인 발코니 (love in balcony)|!Beautiful Complex`
 },
 {
 date:"2026-03-07",
 title:"PALCHILL 2026 CLUB TOUR #3",
-venue:"ì¤ë°©ê°ë¥´ë",
+venue:"오방가르드",
 artist:"87dance",
-songs:`devil|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck Boat|RANDOM BOX|ì·¨íì§ ììë (Without get drink)|Smokin blue|iBoy|ì¨ëª½í¤ (Seamonkey)|Maybe I|ì¼íì± (a night person)|How can i forget you girl|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ì¬íë (Saffron)|ì²­ìëê²½ (éè²æ±äº¬)|Beautiful Complex|!ë² ì´í (Barefoot)|!Puppet|!candy|!Beautiful Complex`
+songs:`devil|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck Boat|RANDOM BOX|취하지 않아도 (Without get drink)|Smokin blue|iBoy|씨몽키 (Seamonkey)|Maybe I|야행성 (a night person)|How can i forget you girl|바텐더 (BARTENDER) (Feat. 딥플로우)|사프란 (Saffron)|청색동경 (青色東京)|Beautiful Complex|!베어풋 (Barefoot)|!Puppet|!candy|!Beautiful Complex`
 },
 {
 date:"2026-03-11",
 title:"PALCHILL 2026 CLUB TOUR #4",
-venue:"ì¤íì´ì¤ìë¤",
+venue:"스페이스소다",
 artist:"87dance",
-songs:`L-O-V-E (cover)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|Hush|Zzz|Nylon|ROM-COM (feat. Vulgar Savior)|Duck Boat|ë°ë§|Inkwater|ì¼íì± (a night person)|Smileless|devil|RANDOM BOX|Last Night on Earth (cover)|even if fall into a fail|ì²­ìëê²½ (éè²æ±äº¬)|Youth Heritage|!4DL (four-dimensional love)`
+songs:`L-O-V-E (cover)|러브 인 발코니 (love in balcony)|Hush|Zzz|Nylon|ROM-COM (feat. Vulgar Savior)|Duck Boat|반말|Inkwater|야행성 (a night person)|Smileless|devil|RANDOM BOX|Last Night on Earth (cover)|even if fall into a fail|청색동경 (青色東京)|Youth Heritage|!4DL (four-dimensional love)`
 },
 {
 date:"2026-03-13",
 title:"PALCHILL 2026 CLUB TOUR #5",
-venue:"ìê¸°ì¤íëì¤",
+venue:"생기스튜디오",
 artist:"87dance",
-songs:`ì²­ìëê²½ (éè²æ±äº¬)|RANDOM BOX|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|Passing Love (feat. íë¤í of OurR)|Inkwater|Daydream|ë°ë§|I Wanna Stay With You|YOU'RE MY CAKE|How can i forget you girl|ì ë ¹ (Ghosts are bored)|And other days|Smileless|Nylon|Youth Heritage|Beautiful Complex|!ê´ì°®ìê±°ì¼`
+songs:`청색동경 (青色東京)|RANDOM BOX|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|Passing Love (feat. 홍다혜 of OurR)|Inkwater|Daydream|반말|I Wanna Stay With You|YOU'RE MY CAKE|How can i forget you girl|유령 (Ghosts are bored)|And other days|Smileless|Nylon|Youth Heritage|Beautiful Complex|!괜찮을거야`
 },
 {
 date:"2026-03-14",
 title:"PALCHILL 2026 CLUB TOUR #6",
-venue:"ì²ì¹ì¤ëì¤í",
+venue:"처치앤댄스홀",
 artist:"87dance",
-songs:`candy|YOU'RE MY CAKE|How can i forget you girl|Nylon|Hush|ì ë ¹ (Ghosts are bored)|Passing Love (feat. íë¤í of OurR)|Inkwater|Daydream|ë°ë§|I Wanna Stay With You|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|ëì ë¬í½ì´ (city snail)|Duck boat|ì²­ìëê²½ (éè²æ±äº¬)|RANDOM BOX|ëë¦¼ìë¹ì¤ (dream service)|!even if fall into a fail|!Beautiful Complex`
+songs:`candy|YOU'RE MY CAKE|How can i forget you girl|Nylon|Hush|유령 (Ghosts are bored)|Passing Love (feat. 홍다혜 of OurR)|Inkwater|Daydream|반말|I Wanna Stay With You|러브 인 발코니 (love in balcony)|도시 달팽이 (city snail)|Duck boat|청색동경 (青色東京)|RANDOM BOX|드림서비스 (dream service)|!even if fall into a fail|!Beautiful Complex`
 },
 {
 date:"2026-03-18",
 title:"PALCHILL 2026 CLUB TOUR #7",
-venue:"ì¸íë¬ê·¸ë íë",
+venue:"언플러그드 홍대",
 artist:"87dance",
-songs:`Just the Two of Us (cover)|ì²­ìëê²½ (éè²æ±äº¬)|Zzz|Nylon|ë°ë§|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|ì¼íì± (a night person)|devil|ì·¨íì§ ììë (Without get drink)|ROM-COM (feat. Vulgar Savior)|Inkwater|ë² ì´í (Barefoot)|ì¨ëª½í¤ (Seamonkey)|RANDOM BOX|Beautiful Complex|ìì¢ì´ ìì ì¨ (origami) (CD only)|!My Jinji (cover)`
+songs:`Just the Two of Us (cover)|청색동경 (靑色東京)|Zzz|Nylon|반말|러브 인 발코니 (love in balcony)|야행성 (a night person)|devil|취하지 않아도 (Without get drink)|ROM-COM (feat. Vulgar Savior)|Inkwater|베어풋 (Barefoot)|씨몽키 (Seamonkey)|RANDOM BOX|Beautiful Complex|색종이 아저씨 (origami) (CD only)|!My Jinji (cover)`
 },
 {
 date:"2026-03-20",
 title:"PALCHILL 2026 CLUB TOUR #8",
-venue:"ì±ë1969",
+venue:"채널1969",
 artist:"87dance",
-songs:`ë²¨ë³´ì´ (Bell boY)|ëì ë ì¬ì´ì ëì´ì°ê¸°|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|iBoy|Hush|mush|Smokin blue|Check in|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ì¼íì± (a night person)|How can i forget you girl|YOU'RE MY CAKE|Tommy cooper (Feat. Khundi Panda)|Puppet|ë² ì´í (Barefoot)|ì¬íë (Saffron)|Last Night on Earth (cover)|!Maybe I`
+songs:`벨보이 (Bell boY)|너와 나 사이에 띄어쓰기|러브 인 발코니 (love in balcony)|iBoy|Hush|mush|Smokin blue|Check in|바텐더 (BARTENDER) (Feat. 딥플로우)|야행성 (a night person)|How can i forget you girl|YOU'RE MY CAKE|Tommy cooper (Feat. Khundi Panda)|Puppet|베어풋 (Barefoot)|사프란 (Saffron)|Last Night on Earth (cover)|!Maybe I`
 },
 {
 date:"2026-03-21",
-title:"ëí¼íì¤í",
-venue:"ë¬´ì ì¬ê°ë¬ì§",
+title:"도피페스타",
+venue:"무신사개러지",
 artist:"87dance",
-songs:`Smileless|Hush|mush|ì²­ìëê²½ (éè²æ±äº¬)|even if fall into a fail|RANDOM BOX|Beautiful Complex|!devil|!ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)`
+songs:`Smileless|Hush|mush|청색동경 (青色東京)|even if fall into a fail|RANDOM BOX|Beautiful Complex|!devil|!바텐더 (BARTENDER) (Feat. 딥플로우)`
 },
 {
 date:"2026-03-22",
 title:"PALCHILL 2026 CLUB TOUR #9",
-venue:"ì¸ì²ë§¥ì£¼ í¸ëì´",
+venue:"인천맥주 호랑이",
 artist:"87dance",
-songs:`ì²­ìëê²½ (éè²æ±äº¬)|candy|Nylon|ì¨ëª½í¤ (Seamonkey)|Soldout smile|And other days|How can i forget you girl|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|ì¬ëíê¸° ëë¬¸ì (cover)|4DL (four-dimensional love)|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|RANDOM BOX|Beautiful Complex|ëë¦¼ìë¹ì¤ (dream service)|!Dreams Come True (cover)`
+songs:`청색동경 (青色東京)|candy|Nylon|씨몽키 (Seamonkey)|Soldout smile|And other days|How can i forget you girl|러브 인 발코니 (love in balcony)|사랑하기 때문에 (cover)|4DL (four-dimensional love)|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|RANDOM BOX|Beautiful Complex|드림서비스 (dream service)|!Dreams Come True (cover)`
 },
 {
 date:"2026-03-22",
 title:"PALCHILL 2026 CLUB TOUR #10",
-venue:"ì¸ì²ë§¥ì£¼ í¸ëì´",
+venue:"인천맥주 호랑이",
 artist:"87dance",
-songs:`Ain't No Sunshine (cover)|ì¨ëª½í¤ (Seamonkey)|ì ë ¹ (Ghosts are bored)|ì¼íì± (a night person)|Daydream|Check in|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|even if fall into a fail|Duck Boat|ëìë¬í½ì´ (city snail)|ROM-COM (feat. Vulgar Savior)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|RANDOM BOX|how can i forget you girl|YOU'RE MY CAKE|devil|My Iron Lung (cover)|Beautiful Complex|!Wake Me Up When September Ends (cover)|!ì¬ëíê¸° ëë¬¸ì (cover)|!iBoy|!RAMDOM BOX`
+songs:`Ain't No Sunshine (cover)|씨몽키 (Seamonkey)|유령 (Ghosts are bored)|야행성 (a night person)|Daydream|Check in|바텐더 (BARTENDER) (Feat. 딥플로우)|even if fall into a fail|Duck Boat|도시달팽이 (city snail)|ROM-COM (feat. Vulgar Savior)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|RANDOM BOX|how can i forget you girl|YOU'RE MY CAKE|devil|My Iron Lung (cover)|Beautiful Complex|!Wake Me Up When September Ends (cover)|!사랑하기 때문에 (cover)|!iBoy|!RAMDOM BOX`
 },
 {
 date:"2026-03-25",
 title:"PALCHILL 2026 CLUB TOUR #11",
-venue:"ì¤íì´ì¤ íê°",
+venue:"스페이스 한강",
 artist:"87dance",
-songs:`Ain't No Sunshine (cover)|I Wanna Stay With You (w. ì¥ë¯¸, ë£°ë£¨)|ì·¨íì§ ììë (Without get drink)|ROM-COM (feat. Vulgar Savior)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|ë°ë§|Inkwater|Smileless|RANDOM BOX|ì¼íì± (a night person)|ì²­ìëê²½ (éè²æ±äº¬)|Zzz|Nylon|Hush|devil|ë² ì´í (Barefoot)|ì¨ëª½í¤ (Seamonkey)|4DL (four-dimensional love)|Youth Heritage|!Wake Me Up When September Ends (cover)`
+songs:`Ain't No Sunshine (cover)|I Wanna Stay With You (w. 장미, 룰루)|취하지 않아도 (Without get drink)|ROM-COM (feat. Vulgar Savior)|러브 인 발코니 (love in balcony)|반말|Inkwater|Smileless|RANDOM BOX|야행성 (a night person)|청색동경 (青色東京)|Zzz|Nylon|Hush|devil|베어풋 (Barefoot)|씨몽키 (Seamonkey)|4DL (four-dimensional love)|Youth Heritage|!Wake Me Up When September Ends (cover)`
 },
 {
 date:"2026-03-27",
 title:"ROMANTIC COMEDY",
-venue:"ì¤íì´ì¤ ë¸ë¦­",
+venue:"스페이스 브릭",
 artist:"87dance",
-songs:`ì¬íë (Saffron)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Puppet|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ROM-COM (feat. Vulgar Savior) w.Ãne SONG|Duck Boat|even if fall into a fail|RANDOM BOX|ì²­ìëê²½ (éè²æ±äº¬) w.Vulgar Savior|Beautiful Complex|!devil|~ëª½ì±ìë¶(å¤¢éæå) - Vulgar Savior Ã íì¹ ëì¤(87dance)|~å°å¨ä½ çé¨å­£ - Vulgar Savior Ã íì¹ ëì¤(87dance)|~ë¯¸ê³µê° ì ê³¡ - Vulgar Savior Ã íì¹ ëì¤(87dance)`
+songs:`사프란 (Saffron)|러브 인 발코니 (love in balcony)|candy|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Puppet|바텐더 (BARTENDER) (Feat. 딥플로우)|ROM-COM (feat. Vulgar Savior) w.Üne SONG|Duck Boat|even if fall into a fail|RANDOM BOX|청색동경 (青色東京) w.Vulgar Savior|Beautiful Complex|!devil|~몽성시분(夢醒時分) - Vulgar Savior × 팔칠댄스(87dance)|~困在你的雨季 - Vulgar Savior × 팔칠댄스(87dance)|~미공개 신곡 - Vulgar Savior × 팔칠댄스(87dance)`
 },
 {
 date:"2026-03-29",
 title:"PALCHILL 2026 CLUB TOUR #12",
-venue:"í´ë½FF",
+venue:"클럽FF",
 artist:"87dance",
-songs:`ì ë ¹ (Ghosts are bored)|Daydream|Tommy cooper (Feat. Khundi Panda)|Check in|ì¼íì± (a night person)|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|Puppet|ë² ì´í (Barefoot)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|Nylon|RANDOM BOX|ì²­ìëê²½ (éè²æ±äº¬) (w. Joe Lo, Joshua)|ì¬íë (Saffron)|Wake Me Up When September Ends (cover)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Hush|mush|ROM-COM (feat. Vulgar Savior)|devil|even if fall into a fail|YOU'RE MY CAKE|How can i forget you girl|candy|ëë¦¼ìë¹ì¤ (dream service)|Beautiful Complex|RANDOM BOX`
+songs:`유령 (Ghosts are bored)|Daydream|Tommy cooper (Feat. Khundi Panda)|Check in|야행성 (a night person)|바텐더 (BARTENDER) (Feat. 딥플로우)|Puppet|베어풋 (Barefoot)|러브 인 발코니 (love in balcony)|Nylon|RANDOM BOX|청색동경 (青色東京) (w. Joe Lo, Joshua)|사프란 (Saffron)|Wake Me Up When September Ends (cover)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Hush|mush|ROM-COM (feat. Vulgar Savior)|devil|even if fall into a fail|YOU'RE MY CAKE|How can i forget you girl|candy|드림서비스 (dream service)|Beautiful Complex|RANDOM BOX`
 },
 {
 date:"2026-04-21",
 title:"[BPM LIVE] EP.04",
 venue:"BPM LIVE",
 artist:"87dance",
-songs:`4DL (four-dimensional love)|devil|ZZZ|Smileless|ROMCOM|DUCK BOAT|NYLON|ì¼íì±|ì²­ìëê²½|Ain't No Sunshine (cover)|Wake Me Up When September Ends (cover)`
+songs:`4DL (four-dimensional love)|devil|ZZZ|Smileless|ROMCOM|DUCK BOAT|NYLON|야행성|청색동경|Ain't No Sunshine (cover)|Wake Me Up When September Ends (cover)`
 },
 {
 date:"2026-04-05",
 title:"PALCHILL 2026 CLUB TOUR #13",
-venue:"ì¤íëì¤ ë¡ê·¸",
+venue:"스튜디오 로그",
 artist:"87dance",
-songs:`ì·¨íì§ ììë (Without get drink)|And other days|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ëì ë ì¬ì´ì ëì´ì°ê¸°|Seppun (cover)|candy|ì¬ëíê¸° ëë¬¸ì (cover)|L-O-V-E (cover) w.ì¹ì£¼ ë|ì¨ëª½í¤ (Seamonkey) w.ì¹ì£¼ ë|Fly Me to the Moon (cover) w.ì¹ì£¼ ë|ë°ë§ (ìê¸° ì²´ì¸ì§)|Ain't No Sunshine (cover)|Reality (cover)|Lover Boy (cover)|Last Night on Earth (cover)|íì ì¬ë (Feat. íì¹ ëì¤)|ìì¢ì´ ìì ì¨ (origami) (CD ONLY)|ìê·¸ë (cover)|!ëë¦¼ìë¹ì¤ (dream service)`
+songs:`취하지 않아도 (Without get drink)|And other days|바텐더 (BARTENDER) (Feat. 딥플로우)|너와 나 사이에 띄어쓰기|Seppun (cover)|candy|사랑하기 때문에 (cover)|L-O-V-E (cover) w.승주 님|씨몽키 (Seamonkey) w.승주 님|Fly Me to the Moon (cover) w.승주 님|반말 (악기 체인지)|Ain't No Sunshine (cover)|Reality (cover)|Lover Boy (cover)|Last Night on Earth (cover)|하얀 사람 (Feat. 팔칠댄스)|색종이 아저씨 (origami) (CD ONLY)|왜그래 (cover)|!드림서비스 (dream service)`
 },
 {
 date:"2026-04-25",
 title:"PALCHILLTOWN",
-venue:"ë¸ë¤ì¬ ë¼ì´ë¸ íì°ì¤",
+venue:"노들섬 라이브 하우스",
 artist:"87dance",
-songs:`ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|even if fall into a fail|ì²­ìëê²½ (éè²æ±äº¬)|Zzz|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|Puppet|Smokin blue|Passing Love (feat. íë¤í of OurR)|ì¬íë (Saffron)|And other days|ì¼íì± (a night person)|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|YOU'RE MY CAKE|How can i forget you girl|Hush|mush|devil|RANDOM BOX|Beautiful Complex|!ìê·¸ë (cover)`
+songs:`러브 인 발코니 (love in balcony)|candy|even if fall into a fail|청색동경 (青色東京)|Zzz|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|ROM-COM (feat. Vulgar Savior)|Duck boat|Puppet|Smokin blue|Passing Love (feat. 홍다혜 of OurR)|사프란 (Saffron)|And other days|야행성 (a night person)|바텐더 (BARTENDER) (Feat. 딥플로우)|YOU'RE MY CAKE|How can i forget you girl|Hush|mush|devil|RANDOM BOX|Beautiful Complex|!왜그래 (cover)`
 },
 {
 date:"2026-04-26",
-title:"íì´ë¡ë½íì¤í°ë²",
-venue:"ë¬¸íë¹ì¶ê¸°ì§",
+title:"히어로락페스티벌",
+venue:"문화비축기지",
 artist:"87dance",
-songs:`How can i forget you girl|Beautiful Complex|even if fall into a fail|ì²­ìëê²½ (éè²æ±äº¬)|Nylon|ROM-COM (feat. Vulgar Savior)|devil`
+songs:`How can i forget you girl|Beautiful Complex|even if fall into a fail|청색동경 (青色東京)|Nylon|ROM-COM (feat. Vulgar Savior)|devil`
 },
 {
 date:"2026-05-02",
-title:"ë³ ë  ìë¦¬",
-venue:"íë ì¤ë¼ì´ì§",
+title:"볕 든 자리",
+venue:"플렉스라운지",
 artist:"87dance",
-songs:`Youth Heritage|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Nylon|ROM-COM (feat. Vulgar Savior)|ì²­ìëê²½ (éè²æ±äº¬)|devil|!Beautiful Complex|!ëë¦¼ìë¹ì¤ (dream service)`
+songs:`Youth Heritage|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Nylon|ROM-COM (feat. Vulgar Savior)|청색동경 (青色東京)|devil|!Beautiful Complex|!드림서비스 (dream service)`
 },
 {
 date:"2026-05-09",
-title:"í¤ì¤íëì¤ ë¼ì´ë¸",
-venue:"í¤ì¤íëì¤ ìì¸",
+title:"톤스튜디오 라이브",
+venue:"톤스튜디오 서울",
 artist:"87dance",
-songs:`Inkwater|devil (Acoustic ver.)|ì¨ëª½í¤ (Seamonkey) (Acoustic ver.)|ì¼íì± (a night person)|Maybe I|Tommy cooper (Feat. Khundi Panda)|Puppet|ë² ì´í (Barefoot) (Acoustic ver.)|ì¬íë (Saffron)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ì²­ìëê²½ (éè²æ±äº¬)|RANDOM BOX|Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|Beautiful Complex|Youth Heritage|!candy|!even if fall into a fail`
+songs:`Inkwater|devil (Acoustic ver.)|씨몽키 (Seamonkey) (Acoustic ver.)|야행성 (a night person)|Maybe I|Tommy cooper (Feat. Khundi Panda)|Puppet|베어풋 (Barefoot) (Acoustic ver.)|사프란 (Saffron)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|청색동경 (青色東京)|RANDOM BOX|Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|Beautiful Complex|Youth Heritage|!candy|!even if fall into a fail`
 },
 {
 date:"2026-05-10",
-title:"ë ëª¬ ë®¤ì§ íì¤í°ë²",
-venue:"ë¬ììí¸ì¼í°",
+title:"레몬 뮤직 페스티벌",
+venue:"달서아트센터",
 artist:"87dance",
-songs:`devil|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|even if fall into a fail|RANDOM BOX|Beautiful Complex|ì²­ìëê²½ (éè²æ±äº¬)|!ROM-COM (feat. Vulgar Savior)`
+songs:`devil|바텐더 (BARTENDER) (Feat. 딥플로우)|러브 인 발코니 (love in balcony)|even if fall into a fail|RANDOM BOX|Beautiful Complex|청색동경 (青色東京)|!ROM-COM (feat. Vulgar Savior)`
 },
 {
 date:"2026-05-14",
-title:"ê¿ìì ë³¸ ë¯¸ë¬ë³¼",
-venue:"ë¬´ì ì¬ê°ë¬ì§",
+title:"꿈에서 본 미러볼",
+venue:"무신사개러지",
 artist:"87dance",
-songs:`iBoy|ì²­ìëê²½ (éè²æ±äº¬)|Nylon|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|RANDOM BOX|Smileless|4DL (four-dimensional love)|ROM-COM (feat. Vulgar Savior)|Beautiful Complex|!ì ì ê³¼ì ê°ë³¼ê¹ (cover)`
+songs:`iBoy|청색동경 (青色東京)|Nylon|러브 인 발코니 (love in balcony)|candy|RANDOM BOX|Smileless|4DL (four-dimensional love)|ROM-COM (feat. Vulgar Savior)|Beautiful Complex|!정신과에 가볼까 (cover)`
 },
 {
 date:"2026-05-30",
-title:"ë·°í°íë¯¼í¸ë¼ì´í(BML)",
-venue:"ë¬¸íë¹ì¶ê¸°ì§",
+title:"뷰티풀민트라이프(BML)",
+venue:"문화비축기지",
 artist:"87dance",
-songs:`How can i forget you girl|Beautiful Complex|RANDOM BOX|candy|ë¯¸ë°ë§¤ê³¡|devil|Nylon|ROM-COM (feat. Vulgar Savior)|ì²­ìëê²½ (éè²æ±äº¬)`
+songs:`How can i forget you girl|Beautiful Complex|RANDOM BOX|candy|미발매곡|devil|Nylon|ROM-COM (feat. Vulgar Savior)|청색동경 (青色東京)`
 },
 {
 date:"2026-06-06",
-title:"BiKN presents Live in Tokyo 2026 éè²æ±äº¬",
-venue:"ä¸åæ²¢SHELTER",
+title:"BiKN presents Live in Tokyo 2026 青色東京",
+venue:"下北沢SHELTER",
 artist:"87dance",
-songs:`ì ë ¹ (Ghosts are bored)|And other days|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|How can i forget you girl|Beautiful Complex|RANDOM BOX|candy|even if fall into a fail|Pepero|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|ì²­ìëê²½ (éè²æ±äº¬)|Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|Hush|mush|Seppun (cover)|!ìê·¸ë (cover)|!devil|!Youth Heritage`
+songs:`유령 (Ghosts are bored)|And other days|러브 인 발코니 (love in balcony)|How can i forget you girl|Beautiful Complex|RANDOM BOX|candy|even if fall into a fail|Pepero|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|청색동경 (青色東京)|Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|Hush|mush|Seppun (cover)|!왜그래 (cover)|!devil|!Youth Heritage`
 },
 {
 date:"2026-06-16",
-title:"[BPM LIVE] EP.07 ì¥íë (ìµì¤ì)",
+title:"[BPM LIVE] EP.07 장한나 (최준영)",
 venue:"BPM LIVE",
 artist:"87dance",
-songs:`Down|Muse|Lullaby of birdland (cover)|I Love You (With all my heart)|Somewhere over the rainbow (cover)|KPOPSTAR|Say No More|Bartender|ì ì ê¸¸ì ìë¤ (cover)|Folded (cover)|RUNNAWAY|!Down`
+songs:`Down|Muse|Lullaby of birdland (cover)|I Love You (With all my heart)|Somewhere over the rainbow (cover)|KPOPSTAR|Say No More|Bartender|잠시 길을 잃다 (cover)|Folded (cover)|RUNNAWAY|!Down`
 },
 {
 date:"2026-07-26",
-title:"ìì ëë²ì¤íì¤í°ë²",
-venue:"íë¼ë¤ì´ì¤ìí°",
+title:"원유니버스페스티벌",
+venue:"파라다이스시티",
 artist:"87dance",
-songs:`devil|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Beautiful Complex|ì²­ìëê²½ (éè²æ±äº¬)`
+songs:`devil|바텐더 (BARTENDER) (Feat. 딥플로우)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Beautiful Complex|청색동경 (青色東京)`
 },
 {
 date:"2026-08-08",
 title:"87DAY",
-venue:"ì±ë1969",
+venue:"채널1969",
 artist:"87dance",
-songs:`YOU'RE MY CAKE|How can i forget you girl|Beautiful Complex|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Nylon|devil|ì²­ìëê²½ (éè²æ±äº¬)|ì¼íì± (a night person)|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|Beautiful Complex|~í ê±¸ì ë (cover) - ë°ì±í¸|~ì´ ë°¤ì´ ì§ëë©´ (cover) - ë°ì±í¸`
+songs:`YOU'RE MY CAKE|How can i forget you girl|Beautiful Complex|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Nylon|devil|청색동경 (青色東京)|야행성 (a night person)|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|Beautiful Complex|~한 걸음 더 (cover) - 박성호|~이 밤이 지나면 (cover) - 박성호`
 },
 {
 date:"2026-08-14",
 title:"SUNSET PARTY",
-venue:"ëí´ë¦¬í",
+venue:"더클리프",
 artist:"87dance",
-songs:`ì·¨íì§ ììë (Without get drink)|ëì ë ì¬ì´ì ëì´ì°ê¸°|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|ì²­ìëê²½ (éè²æ±äº¬)|Youth Heritage|Inkwater|Maybe I|Wake Me Up When September Ends (cover)|!4DL (four-dimensional love)`
+songs:`취하지 않아도 (Without get drink)|너와 나 사이에 띄어쓰기|ROM-COM (feat. Vulgar Savior)|Duck boat|Nylon|청색동경 (青色東京)|Youth Heritage|Inkwater|Maybe I|Wake Me Up When September Ends (cover)|!4DL (four-dimensional love)`
 },
 {
 date:"2026-08-15",
-title:"íê¸° íë¡ì í¸ vol.4",
-venue:"í´ë½ì¸ë ì ì£¼",
+title:"활기 프로젝트 vol.4",
+venue:"클럽인디 제주",
 artist:"87dance",
-songs:`ì êµ­ê°|devil|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|Nylon|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|YOU'RE MY CAKE|How can i forget you girl|Beautiful Complex|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|candy|ì¬ëíê¸° ëë¬¸ì (cover)|iBoy|RANDOM BOX|!ìê·¸ë (cover)`
+songs:`애국가|devil|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|Nylon|러브 인 발코니 (love in balcony)|YOU'RE MY CAKE|How can i forget you girl|Beautiful Complex|ROM-COM (feat. Vulgar Savior)|even if fall into a fail|candy|사랑하기 때문에 (cover)|iBoy|RANDOM BOX|!왜그래 (cover)`
 },
 {
 date:"2026-08-28",
-title:"ë¼ì´ë¸í´ë½ë°ì´",
-venue:"í´ë½FF",
+title:"라이브클럽데이",
+venue:"클럽FF",
 artist:"87dance",
-songs:`Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|RANDOM BOX|Beautiful Complex|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|ì¬íë (Saffron)|ëë¦¼ìë¹ì¤ (dream service)`
+songs:`Nylon|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|RANDOM BOX|Beautiful Complex|바텐더 (BARTENDER) (Feat. 딥플로우)|사프란 (Saffron)|드림서비스 (dream service)`
 },
 {
 date:"2026-09-06",
-title:"ìë¤ë¦¬ íì¤í",
-venue:"ì¤íì´ì¤ ë¸ë¦­",
+title:"잔다리 페스타",
+venue:"스페이스 브릭",
 artist:"87dance",
-songs:`Smokin blue|How can i forget you girl|ì¼íì± (a night person)|Nylon|ì²­ìëê²½ (éè²æ±äº¬)|devil|ROM-COM (feat. Vulgar Savior)|Beautiful Complex|RANDOM BOX|~Summer Magic - Emerald, íì¹ ëì¤(87dance)`
+songs:`Smokin blue|How can i forget you girl|야행성 (a night person)|Nylon|청색동경 (青色東京)|devil|ROM-COM (feat. Vulgar Savior)|Beautiful Complex|RANDOM BOX|~Summer Magic - Emerald, 팔칠댄스(87dance)`
 },
 {
 date:"2026-09-06",
-title:"ìë¤ë¦¬ íì¤í ì¤íëë ì½ë",
-venue:"ìê¸° ì¤íëì¤",
+title:"잔다리 페스타 오프더레코드",
+venue:"생기 스튜디오",
 artist:"87dance",
-songs:`Maybe I|ì ë ¹ (Ghosts are bored)|YOU'RE MY CAKE|ë¬ë¸ ì¸ ë°ì½ë (love in balcony)|candy|Pepero|ì¨ëª½í¤ (Seamonkey)|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|4DL (four-dimensional love)|ì¨ë°ê¼­ì§ (hide and seek)|devil|Beautiful Complex|!random box`
+songs:`Maybe I|유령 (Ghosts are bored)|YOU'RE MY CAKE|러브 인 발코니 (love in balcony)|candy|Pepero|씨몽키 (Seamonkey)|바텐더 (BARTENDER) (Feat. 딥플로우)|4DL (four-dimensional love)|숨바꼭질 (hide and seek)|devil|Beautiful Complex|!random box`
 },
 {
 date:"2026-09-11",
 title:"THE SOLUTIONS x 87DANCE",
-venue:"ìì¤24 ìëë¡í¬í",
+venue:"예스24 원더로크홀",
 artist:"87dance",
-songs:`Check in|ë² ì´í (Barefoot)|ROM-COM (feat. Vulgar Savior)|Duck boat|~Maximizer|Nylon|ì²­ìëê²½ (éè²æ±äº¬)|RANDOM BOX|Beautiful Complex|!4DL (four-dimensional love)|!ì¨ë°ê¼­ì§ (hide and seek)|~devil - íì¹ ëì¤, ìë£¨ìì¤`
+songs:`Check in|베어풋 (Barefoot)|ROM-COM (feat. Vulgar Savior)|Duck boat|~Maximizer|Nylon|청색동경 (青色東京)|RANDOM BOX|Beautiful Complex|!4DL (four-dimensional love)|!숨바꼭질 (hide and seek)|~devil - 팔칠댄스, 솔루션스`
 },
 {
 date:"2026-09-19",
-title:"2026 ê²½ì£¼ í©ê¸ì¹´ëë°",
-venue:"êµ¬.ëììë¤ë§ 3ê´",
+title:"2026 경주 황금카니발",
+venue:"구.대왕시네마 3관",
 artist:"87dance",
-songs:`YOU'RE MY CAKE|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|Nylon|Beautiful Complex|ë°íë (BARTENDER) (Feat. ë¥íë¡ì°)|!ì²­ìëê²½ (éè²æ±äº¬)`
+songs:`YOU'RE MY CAKE|RANDOM BOX|ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|Nylon|Beautiful Complex|바텐더 (BARTENDER) (Feat. 딥플로우)|!청색동경 (青色東京)`
 },
 {
 date:"2026-10-26",
-title:"ììì¼ì ê±°ì§ë§!",
-venue:"ìê¸° ì¤íëì¤",
+title:"월요일의 거짓말!",
+venue:"생기 스튜디오",
 artist:"BETHEBLUE",
-songs:`ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|Smileless|4DL (four-dimensional love)|Ain't No Sunshine (cover)|ì²­ìëê²½ (éè²æ±äº¬)|devil|Nylon|candy|Pepero|!RANDOM BOX|!Beautiful Complex`
+songs:`ROM-COM (feat. Vulgar Savior)|Duck boat|even if fall into a fail|Smileless|4DL (four-dimensional love)|Ain't No Sunshine (cover)|청색동경 (青色東京)|devil|Nylon|candy|Pepero|!RANDOM BOX|!Beautiful Complex`
 }
 ];
 
 // ----------------------------------
-// ê¸°ë³¸ ì¤ì 
+// 기본 설정
 // ----------------------------------
 
 const $ = id => document.getElementById(id);
@@ -861,7 +861,7 @@ function hideReopenButton() {
 }
 
 // ----------------------------------
-// ìºë¦°ë
+// 캘린더
 // ----------------------------------
 
 function renderCalendar() {
@@ -885,10 +885,10 @@ function renderCalendar() {
   const monthSelect = $("monthSelect");
 
   yearSelect.innerHTML = [...years].sort((a,b)=>a-b)
-    .map(y=>`<option value="${y}">${y}ë</option>`).join("");
+    .map(y=>`<option value="${y}">${y}년</option>`).join("");
 
   monthSelect.innerHTML = Array.from({length:12},(_,i)=>
-    `<option value="${i}">${i+1}ì</option>`
+    `<option value="${i}">${i+1}월</option>`
   ).join("");
 
   yearSelect.value = String(year);
@@ -928,7 +928,7 @@ function renderCalendar() {
         ${selected ? "selected" : ""}"
         data-date="${date}">
 
-        <span class="day-number">${today ? `<span class="today-dot" aria-label="ì¤ë">${d}</span>` : d}</span>
+        <span class="day-number">${today ? `<span class="today-dot" aria-label="오늘">${d}</span>` : d}</span>
 
         ${dayEvents.length ? `
           <span class="calendar-event-names">
@@ -955,12 +955,12 @@ function renderCalendar() {
 }
 
 // ----------------------------------
-// ë ì§ë³ ê³µì° ì ë³´
+// 날짜별 공연 정보
 // ----------------------------------
 
 function renderSelectedEvents() {
   if(!selectedDate) {
-    $("selectedDate").textContent = "ë ì§ë¥¼ ì íí´ì£¼ì¸ì";
+    $("selectedDate").textContent = "날짜를 선택해주세요";
     $("selectedCount").textContent = "";
     return;
   }
@@ -974,7 +974,7 @@ function renderSelectedEvents() {
 
   if(!events.length) {
     $("selectedEvents").innerHTML = `
-      <div class="empty-message">ë±ë¡ë ê³µì°ì´ ììµëë¤.</div>
+      <div class="empty-message">등록된 공연이 없습니다.</div>
     `;
     $("details").classList.remove("open");
     hideReopenButton();
@@ -1007,7 +1007,7 @@ function renderSelectedEvents() {
 }
 
 // ----------------------------------
-// ì¸í¸ë¦¬ì¤í¸ ìì¸
+// 세트리스트 상세
 // ----------------------------------
 
 function renderDetails(index) {
@@ -1020,10 +1020,10 @@ function renderDetails(index) {
       <div>
         <div class="details-title">${escapeHtml(p.title)}</div>
         <div class="details-meta">
-          ${escapeHtml(p.venue)} Â· ${escapeHtml(p.artist)}
+          ${escapeHtml(p.venue)} · ${escapeHtml(p.artist)}
         </div>
       </div>
-      <button class="close-detail" aria-label="ë«ê¸°">Ã</button>
+      <button class="close-detail" aria-label="닫기">×</button>
     </div>
 
     <div class="setlist-label">SETLIST</div>
@@ -1050,75 +1050,75 @@ function renderDetails(index) {
 }
 
 // ----------------------------------
-// ê²ì ë³ì¹­
+// 검색 별칭
 // ----------------------------------
 
 let songAliases = {
-  "hush":["íì¬"],
-  "mush":["ë¨¸ì¬"],
-  "smileless":["ì¤ë§ì¼ë¦¬ì¤"],
-  "ì²­ìëê²½":["ì²­ë"],
-  "random box":["ëë°"],
-  "even if fall into a fail":["ì´ë¸íì¼"],
-  "ë¬ë¸ ì¸ ë°ì½ë":["ë½ë°"],
-  "zzz":["ì ¯ì ¯ì ¯"],
-  "Check in":["ì²´í¬ì¸"],
-  "you're my cake":["ì ì´ ë§ì´ ì¼ì´í¬","ì ë§ì¼"],
-  "tommy cooper":["íë¯¸ì¿ í¼","í ë¯¸ì¿ í¼"],
-  "soldout smile":["ìëìì ì¤ë§ì¼"],
-  "ëì ë ì¬ì´ì ëì´ì°ê¸°":["ëëë"],
-  "and other days":["ì¤ìë°"],
-  "passing love":["í¨ì±ë¬ë¸"],
-  "inkwater":["ìí¬ìí°"],
-  "daydream":["ë°ì´ëë¦¼"],
-  "I Wanna Stay With You":["ììëì¤íì´ìì ","ìì´ìëì¤íì´ìì ","ë£°ë£¨ì¡","ë£°ë£¨ì­"],
-  "iboy":["ìì´ë³´ì´"],
-  "maybe i":["ë©ì´ë¹ ìì´","ë©ë¹ìì´"],
-  "lover boy":["ë¬ë²ë³´ì´"],
-  "seppun":["ì¸ë¿"],
-  "reality":["ë¦¬ì¼ë¦¬í°"],
-  "last night on earth":["ì¤ììì¤","ë©¸ë§","ë¼ì¤í¸ëìì¨ì´ì¤"],
-  "ì¬ëíê¸° ëë¬¸ì":["ìëíê¸° ëë¬¸ì"],
-  "ìê·¸ë":["ìê·¸ë"],
-  "dreams come true":["ëì»´í¬"],
-  "club tour":["í´í¬","í´ë½í¬ì´"],
-  "betheblue":["ë¹ëë¸ë£¨","ë¸ë£¨","ì¹ì°","ìì¹ì°"],
-  "wake me up when september ends":["ìë¯¸ì","ì¨ì´í¬ë¯¸ìì¬ìíë²ìì¦","ìíë²","ê·¸ë¦°ë°ì´"],
-  "goldline medley":["ê³¨ëë¼ì¸ ë©ë¤ë¦¬"]
+  "hush":["허쉬"],
+  "mush":["머쉬"],
+  "smileless":["스마일리스"],
+  "청색동경":["청동"],
+  "random box":["랜박"],
+  "even if fall into a fail":["이븐페일"],
+  "러브 인 발코니":["럽발"],
+  "zzz":["젯젯젯"],
+  "Check in":["체크인"],
+  "you're my cake":["유어 마이 케이크","유마케"],
+  "tommy cooper":["타미쿠퍼","토미쿠퍼"],
+  "soldout smile":["솔드아웃 스마일"],
+  "너와 나 사이에 띄어쓰기":["너나띄"],
+  "and other days":["앤아데"],
+  "passing love":["패싱러브"],
+  "inkwater":["잉크워터"],
+  "daydream":["데이드림"],
+  "I Wanna Stay With You":["아워너스테이윗유","아이워너스테이윗유","룰루송","룰루쏭"],
+  "iboy":["아이보이"],
+  "maybe i":["메이비 아이","메비아이"],
+  "lover boy":["러버보이"],
+  "seppun":["세뿐"],
+  "reality":["리얼리티"],
+  "last night on earth":["오아시스","멸망","라스트나잇온어스"],
+  "사랑하기 때문에":["양랑하기 때문에"],
+  "왜그래":["양그래"],
+  "dreams come true":["드컴투"],
+  "club tour":["클투","클럽투어"],
+  "betheblue":["비더블루","블루","승연","양승연"],
+  "wake me up when september ends":["윀미업","웨이크미업웬셉템버엔즈","셉템버","그린데이"],
+  "goldline medley":["골드라인 메들리"]
 };
 
 let eventAliases = {
-  "ë¼ì´ë¸í´ë½ë°ì´":["ë¼í´ë°"],
-  "palchill town":["íì¹ íì´","ë¸ë¤ì¬"],
-  "vulgar savior":["ë²ê°","ë¶ê°","ë²ê°ì¸ë¹ì´","ë¶ê°ì¸ì´ë²"],
-  "youth heritage":["ì í¤"],
-  "aisa tour":["ìí¬","ììì í¬ì´"],
-  "kaoshiung":["ê°ì¤ì"],
-  "í´ë½FF":["íí","ìªìª"],
-  "íëì¹´ë":["íì¹´"],
-  "BPM":["ë¹í¼ì "],
-  "íì´ë¡ë½íì¤í°ë²":["íë½"],
-  "ê¿ìì ë³¸ ë¯¸ë¬ë³¼":["ì¬ìë","ì¬ìì¼","í©ëê³µì°"],
-  "ë ëª¬ ë®¤ì§ íì¤í°ë²":["ë ë®¤í"],
-  "ë·°í°íë¯¼í¬ë¼ì´í":["ë·°ë¯¼ë¼"],
-  "ë·°í°í ë¯¼í¸ ë¼ì´í":["ë·°ë¯¼ë¼"],
-  "Beautiful Mint Life":["ë·°ë¯¼ë¼"],
-  "sunset party":["ëí´ë¦¬í","í´ë¦¬í"],
-  "í©ê¸ì¹´ëë°":["í©ì¹´"],
-  "ììì¼ì ê±°ì§ë§":["ìê³µ"]
+  "라이브클럽데이":["라클데"],
+  "palchill town":["팔칠타운","노들섬"],
+  "vulgar savior":["벌가","불가","벌가세비어","불가세이버"],
+  "youth heritage":["유헤"],
+  "aisa tour":["아투","아시아 투어"],
+  "kaoshiung":["가오슝"],
+  "클럽FF":["프프","엪엪"],
+  "현대카드":["현카"],
+  "BPM":["비피엠"],
+  "히어로락페스티벌":["히락"],
+  "꿈에서 본 미러볼":["심아랜","심아일","합동공연"],
+  "레몬 뮤직 페스티벌":["레뮤페"],
+  "뷰티풀민크라이프":["뷰민라"],
+  "뷰티풀 민트 라이프":["뷰민라"],
+  "Beautiful Mint Life":["뷰민라"],
+  "sunset party":["더클리프","클리프"],
+  "황금카니발":["황카"],
+  "월요일의 거짓말":["솔공"]
 };
 
 // ----------------------------------
-// ê²ì ê³µíµ í¨ì
+// 검색 공통 함수
 // ----------------------------------
 
 function normalizeSearch(value) {
   return String(value ?? "")
     .toLowerCase()
-    .replace(/[\s\-_.()[\]{}'"ââ,:!&Ã+]/g, "");
+    .replace(/[\s\-_.()[\]{}'"’‘,:!&×+]/g, "");
 }
 
-// ë¡ì»¬ ë³ì¹­ê³¼ í´ë¼ì°ë ë³ì¹­ì í©ì³ì ì¬ì©í©ëë¤.
+// 로컬 별칭과 클라우드 별칭을 합쳐서 사용합니다.
 function mergeAliasMaps(base = {}, incoming = {}) {
   const merged = {};
 
@@ -1256,7 +1256,7 @@ function matchesEventAliasInText(value, query) {
 }
 
 // ----------------------------------
-// ê²ì ê²°ê³¼ íì
+// 검색 결과 표시
 // ----------------------------------
 
 function renderSearch() {
@@ -1296,7 +1296,7 @@ function renderSearch() {
 
   $("searchResults").innerHTML = `
     <div class="search-result-label">
-      SEARCH RESULTS â ${results.length}
+      SEARCH RESULTS — ${results.length}
     </div>
 
     ${results.length ? results.map(({performance,index,matchedSongs})=>`
@@ -1313,7 +1313,7 @@ function renderSearch() {
             <div class="search-match">
               ${matchedSongs.map(match=>
                 `<span class="search-highlight">${escapeHtml(match.song)}</span>`
-              ).join(" Â· ")}
+              ).join(" · ")}
             </div>
           ` : ""}
         </div>
@@ -1322,7 +1322,7 @@ function renderSearch() {
         </div>
       </div>
     `).join("") : `
-      <div class="empty-message">ê²ì ê²°ê³¼ê° ììµëë¤.</div>
+      <div class="empty-message">검색 결과가 없습니다.</div>
     `}
   `;
 
@@ -1352,7 +1352,7 @@ function renderSearch() {
 }
 
 // ----------------------------------
-// ì´ì  ë¬ / ë¤ì ë¬
+// 이전 달 / 다음 달
 // ----------------------------------
 
 $("prevMonth").addEventListener("click",()=>{
@@ -1376,7 +1376,7 @@ $("nextMonth").addEventListener("click",()=>{
 });
 
 // ----------------------------------
-// ê²ìì°½ ì´ë²¤í¸
+// 검색창 이벤트
 // ----------------------------------
 
 $("searchInput").addEventListener("input",renderSearch);
@@ -1387,7 +1387,7 @@ $("clearSearch").addEventListener("click",()=>{
 });
 
 // ----------------------------------
-// ìì¸ ëª©ë¡ ë¤ì ì´ê¸°
+// 상세 목록 다시 열기
 // ----------------------------------
 
 $("reopenDetail").addEventListener("click",()=>{
@@ -1397,7 +1397,7 @@ $("reopenDetail").addEventListener("click",()=>{
 });
 
 // ----------------------------------
-// ì´ê¸° íë©´
+// 초기 화면
 // ----------------------------------
 
 function renderAll() {
@@ -1409,7 +1409,7 @@ function renderAll() {
 renderAll();
 
 // ----------------------------------
-// Supabase í´ë¼ì°ë ë°ì´í° ì°ê²°
+// Supabase 클라우드 데이터 연결
 // ----------------------------------
 
 (async function loadCloudArchive() {
