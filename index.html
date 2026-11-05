@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>87dance SETLIST</title>
+<title>87dance / BETHEBLUE ARCHIVE</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
@@ -55,7 +55,11 @@ button{font-family:inherit}
 .setlist-head{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:2px;font-weight:800}
 .song{display:flex;align-items:center;gap:18px;padding:13px 5px;border-bottom:1px solid var(--line);font-size:14px}
 .song-num{width:25px;color:var(--accent);font-weight:800}
-.song.encore{background:#eee9df}
+.song.encore{background:#f2f2f2}
+.artist-filter{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+.filter-btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 16px;font-size:10px;font-weight:800;letter-spacing:1px;cursor:pointer}
+.filter-btn.active,.filter-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.artist-tag{display:inline-block;border:1px solid var(--line);padding:5px 8px;margin:10px 0 4px;font-size:10px;font-weight:800;letter-spacing:1px}
 .encore-label{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:800;padding:18px 5px 5px}
 .duplicate{font-size:10px;color:var(--accent);margin-left:auto}
 .empty-message{color:var(--muted);padding:25px 0;font-size:13px}
@@ -97,7 +101,7 @@ footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-con
   <section class="hero">
     <div class="eyebrow">MUSIC ARCHIVE / 001</div>
     <h1>87dance<br><span>SETLIST.</span></h1>
-    <p class="subtitle">A collection of live performances & memories.</p>
+    <p class="subtitle">87dance & BETHEBLUE — a collection of live performances & memories.</p>
   </section>
 
   <section class="section">
@@ -117,6 +121,11 @@ footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-con
     </div>
     <div class="calendar" id="calendar"></div>
     <div class="legend"><span class="dot"></span> PERFORMANCE</div>
+    <div class="artist-filter">
+      <button class="filter-btn active" data-filter="ALL">ALL</button>
+      <button class="filter-btn" data-filter="87dance">87dance</button>
+      <button class="filter-btn" data-filter="BETHEBLUE">BETHEBLUE</button>
+    </div>
   </section>
 
   <section class="section detail" id="detail">
@@ -150,7 +159,7 @@ footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-con
 </main>
 
 <footer>
-  <span>87dance SETLIST ARCHIVE</span>
+  <span>87dance / BETHEBLUE ARCHIVE</span>
   <span>MADE FOR MUSIC.</span>
 </footer>
 
@@ -161,54 +170,29 @@ footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-con
 // ======================================
 
 const songs = [
-  {title:"Sample Song A",aliases:["sample song a","샘플송 A","SSA"]},
-  {title:"Sample Song B",aliases:["sample song b","샘플송 B"]},
-  {title:"Sample Song C",aliases:["sample song c","샘플송 C"]},
-  {title:"Sample Song D",aliases:["sample song d","샘플송 D"]}
+  // 예시:
+  // {artist:"87dance", title:"곡 제목", aliases:["한글 표기","영문 표기","별칭"]},
+  // {artist:"BETHEBLUE", title:"곡 제목", aliases:["다른 표기"]}
 ];
 
 const performances = [
-  {
-    id:1,
-    date:"2026-11-05",
-    title:"SAMPLE LIVE",
-    venue:"ROLLING HALL",
-    time:"19:00",
-    poster:"",
-    setlist:[
-      {song:"Sample Song A",encore:false},
-      {song:"Sample Song B",encore:false},
-      {song:"Sample Song C",encore:false},
-      {song:"Sample Song D",encore:false},
-      {song:"Sample Song A",encore:true}
-    ]
-  },
-  {
-    id:2,
-    date:"2026-11-12",
-    title:"SAMPLE CLUB SHOW",
-    venue:"MUSIC SPACE",
-    time:"18:00",
-    poster:"",
-    setlist:[
-      {song:"Sample Song B",encore:false},
-      {song:"Sample Song C",encore:false},
-      {song:"Sample Song A",encore:true}
-    ]
-  },
-  {
-    id:3,
-    date:"2026-10-21",
-    title:"SAMPLE SESSION",
-    venue:"HONGDAE",
-    time:"19:30",
-    poster:"",
-    setlist:[
-      {song:"Sample Song A",encore:false},
-      {song:"Sample Song D",encore:false}
-    ]
-  }
+  // 예시:
+  // {
+  //   id:1,
+  //   artist:"87dance", // "87dance" 또는 "BETHEBLUE"
+  //   date:"2026-11-05",
+  //   title:"공연명",
+  //   venue:"공연 장소",
+  //   time:"19:00", // 모르면 ""
+  //   poster:"", // 포스터 이미지 URL
+  //   setlist:[
+  //     {song:"곡 제목",encore:false},
+  //     {song:"앵콜곡",encore:true}
+  //   ]
+  // }
 ];
+
+let activeArtist = "ALL";
 
 // 검색어 표준화: 대소문자 및 공백 차이 제거
 function normalize(value){
@@ -216,15 +200,16 @@ function normalize(value){
 }
 
 // 곡의 정식 제목 찾기
-function getSongTitle(query){
+function getSongTitle(query, artist){
   const q=normalize(query);
   return songs.find(song=>
-    [song.title,...song.aliases].some(alias=>normalize(alias)===q)
+    (!artist || song.artist===artist) &&
+    [song.title,...(song.aliases||[])].some(alias=>normalize(alias)===q)
   )?.title;
 }
 
 // 월별 캘린더
-let current=new Date(2026,10,1);
+let current=new Date(new Date().getFullYear(),new Date().getMonth(),1);
 let selectedDate=null;
 
 function renderCalendar(){
@@ -250,7 +235,7 @@ function renderCalendar(){
     btn.className='day';
     btn.textContent=d;
 
-    if(performances.some(p=>p.date===date))btn.classList.add('has-show');
+    if(performances.some(p=>p.date===date && (activeArtist==="ALL" || p.artist===activeArtist)))btn.classList.add('has-show');
     if(selectedDate===date)btn.classList.add('selected');
 
     btn.addEventListener('click',()=>{
@@ -264,7 +249,7 @@ function renderCalendar(){
 
 // 공연 상세 정보
 function renderDetails(date){
-  const items=performances.filter(p=>p.date===date);
+  const items=performances.filter(p=>p.date===date && (activeArtist==="ALL" || p.artist===activeArtist));
   document.getElementById('detailDate').textContent=date;
   const title=document.getElementById('detailTitle');
   const meta=document.getElementById('detailMeta');
@@ -283,6 +268,11 @@ function renderDetails(date){
   items.forEach(p=>{
     const card=document.createElement('div');
     card.className='show-card';
+
+    const artistTag=document.createElement('div');
+    artistTag.className='artist-tag';
+    artistTag.textContent=p.artist || "ARTIST UNKNOWN";
+    card.appendChild(artistTag);
 
     const info=document.createElement('div');
     info.className='meta';
@@ -312,7 +302,6 @@ function renderDetails(date){
 
     const counts={};
     p.setlist.forEach(t=>counts[t.song]=(counts[t.song]||0)+1);
-    const seen={};
 
     function addTrack(track,index,isEncore){
       const row=document.createElement('div');
@@ -324,7 +313,6 @@ function renderDetails(date){
       name.textContent=track.song;
       row.append(num,name);
 
-      seen[track.song]=(seen[track.song]||0)+1;
       if(counts[track.song]>1){
         const duplicate=document.createElement('span');
         duplicate.className='duplicate';
@@ -360,9 +348,9 @@ function searchSongs(){
 
   const q=normalize(query);
 
-  // 별칭 일치 또는 제목 부분 검색
   const matched=songs.filter(song=>
-    [song.title,...song.aliases].some(alias=>
+    (activeArtist==="ALL" || song.artist===activeArtist) &&
+    [song.title,...(song.aliases||[])].some(alias=>
       normalize(alias)===q ||
       normalize(alias).includes(q)
     )
@@ -375,7 +363,7 @@ function searchSongs(){
 
   matched.forEach(song=>{
     const history=performances.filter(p=>
-      p.setlist.some(t=>t.song===song.title)
+      p.setlist.some(t=>t.song===song.title) && p.artist===song.artist
     );
 
     const heading=document.createElement('div');
@@ -392,7 +380,7 @@ function searchSongs(){
       const row=document.createElement('div');
       row.className='result';
       const small=document.createElement('small');
-      small.textContent=p.date+' / '+p.title;
+      small.textContent=(p.artist||"")+' / '+p.date+' / '+p.title;
       const trackInfo=p.setlist
         .map((t,i)=>({...t,index:i+1}))
         .filter(t=>t.song===song.title)
@@ -420,9 +408,10 @@ function searchSongs(){
 
 // 통계
 function renderStats(){
-  const allTracks=performances.flatMap(p=>p.setlist);
-  const unique=new Set(allTracks.map(t=>t.song));
-  document.getElementById('showCount').textContent=performances.length;
+  const visibleShows=performances.filter(p=>activeArtist==="ALL" || p.artist===activeArtist);
+  const allTracks=visibleShows.flatMap(p=>p.setlist);
+  const unique=new Set(visibleShows.flatMap(p=>p.setlist.map(t=>(p.artist||"")+"::"+t.song)));
+  document.getElementById('showCount').textContent=visibleShows.length;
   document.getElementById('songCount').textContent=unique.size;
   document.getElementById('trackCount').textContent=allTracks.length;
 }
@@ -435,6 +424,18 @@ document.getElementById('next').addEventListener('click',()=>{
   current.setMonth(current.getMonth()+1);
   renderCalendar();
 });
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    activeArtist=btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    renderCalendar();
+    if(selectedDate) renderDetails(selectedDate);
+    renderStats();
+    document.getElementById('results').innerHTML='';
+  });
+});
+
 document.getElementById('searchBtn').addEventListener('click',searchSongs);
 document.getElementById('searchInput').addEventListener('keydown',e=>{
   if(e.key==='Enter')searchSongs();
