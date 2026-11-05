@@ -765,7 +765,37 @@ $('cloudSaveBtn').addEventListener('click',async()=>{$('status').textContent='�
 $('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.signOut();$('appMain').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('loginPassword').value='';$('loginStatus').textContent='로그아웃되었습니다.'});
 supabaseClient.auth.getSession().then(({data})=>handleSession(data.session));function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderList(){const q=$('filter').value.toLowerCase();$('count').textContent='('+data.performances.length+')';$('eventList').innerHTML=data.performances.map((p,i)=>({p,i})).filter(({p})=>(p.title+' '+p.date+' '+p.venue).toLowerCase().includes(q)).map(({p,i})=>`<button class="item ${i===selected?'active':''}" data-i="${i}">${esc(p.title)}<small>${esc(p.date)} · ${esc(p.venue)}</small></button>`).join('');document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>selectEvent(+b.dataset.i))}
-function selectEvent(i){selected=i;const p=data.performances[i];$('empty').classList.add('hidden');$('eventForm').classList.remove('hidden');$('date').value=p.date;$('title').value=p.title;$('venue').value=p.venue;$('artist').value=p.artist;renderSongs(p.songs);renderList()}function renderSongs(s){$('songs').innerHTML=String(s||'').split('|').filter((x,i,a)=>x||a.length===1).map(song=>songRow(song)).join('')}
+function selectEvent(i){selected=i;const p=data.performances[i];$('empty').classList.add('hidden');$('eventForm').classList.remove('hidden');$('date').value=p.date;$('title').value=p.title;$('venue').value=p.venue;$('artist').value=p.artist;renderSongs(p.songs);renderList()}function renderSongs(s) {
+  const container = $('songs');
+  container.replaceChildren();
+
+  let songs = [];
+
+  if (Array.isArray(s)) {
+    songs = s.map(song => {
+      if (typeof song === 'string') return song;
+
+      if (song && typeof song.textContent === 'string') {
+        return song.textContent;
+      }
+
+      if (song && typeof song === 'object') {
+        return song.name || song.title || song.value || '';
+      }
+
+      return '';
+    });
+  } else if (typeof s === 'string') {
+    songs = s.split('|');
+  }
+
+  songs
+    .map(song => String(song).trim())
+    .filter(Boolean)
+    .forEach(song => {
+      container.append(songRow(song));
+    });
+}
 function songRow(v=''){const d=document.createElement('div');d.className='song-row';d.innerHTML=`<input value="${esc(v)}" aria-label="곡명"><button type="button" title="위로">↑</button><button type="button" title="아래로">↓</button><button type="button" title="삭제">×</button>`;d.children[1].onclick=()=>{if(d.previousElementSibling)d.parentNode.insertBefore(d,d.previousElementSibling)};d.children[2].onclick=()=>{if(d.nextElementSibling)d.parentNode.insertBefore(d.nextElementSibling,d)};d.children[3].onclick=()=>d.remove();return d}
 $('addSong').onclick=()=> $('songs').append(songRow());$('pasteSongs').onclick=()=>{const t=prompt('곡명을 | 또는 줄바꿈으로 구분해 붙여넣으세요.');if(t!==null){$('songs').innerHTML='';t.split(/[|\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>$('songs').append(songRow(x)))}};$('newBtn').onclick=()=>{selected=-1;$('empty').classList.add('hidden');$('eventForm').classList.remove('hidden');$('eventForm').reset();$('songs').innerHTML='';$('artist').value='87dance';renderList()};$('eventForm').onsubmit=e=>{e.preventDefault();const p={date:$('date').value,title:$('title').value.trim(),venue:$('venue').value.trim(),artist:$('artist').value.trim(),songs:[...$('songs').querySelectorAll('input')].map(x=>x.value.trim()).filter(Boolean).join('|')};if(selected<0){data.performances.push(p);selected=data.performances.length-1}else data.performances[selected]=p;data.performances.sort((a,b)=>a.date.localeCompare(b.date));selected=data.performances.indexOf(p);persist();selectEvent(selected)};$('deleteBtn').onclick=()=>{if(selected>=0&&confirm('이 공연을 삭제할까요?')){data.performances.splice(selected,1);selected=-1;$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden');persist()}};$('filter').oninput=renderList;
 function renderAliases(){for(const [key,id] of [['songAliases','songAliasList'],['eventAliases','eventAliasList']])$(id).innerHTML=Object.keys(data[key]).sort().map(k=>`<button class="item" data-alias="${esc(k)}" data-kind="${key}">${esc(k)}<small>${esc(data[key][k].join(', '))}</small></button>`).join('');document.querySelectorAll('[data-alias]').forEach(b=>b.onclick=()=>{const k=b.dataset.kind,canonical=b.dataset.alias; if(k==='songAliases'){selectedSongAlias=canonical;$('songCanonical').value=canonical;$('songAliasValues').value=data[k][canonical].join(', ')}else{selectedEventAlias=canonical;$('eventCanonical').value=canonical;$('eventAliasValues').value=data[k][canonical].join(', ')}})}
