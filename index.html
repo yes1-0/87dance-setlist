@@ -3,135 +3,87 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>87dance SETLIST</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
 
 :root {
-  --bg: #f5f4ef;
-  --ink: #20201e;
-  --accent: #ed5637;
-  --line: #d9d8d1;
-  --muted: #88877f;
+  --bg:#f5f4ef;
+  --ink:#20201e;
+  --accent:#ed5637;
+  --line:#d9d8d1;
+  --muted:#89877f;
+  --card:#ebe9e1;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Sans','Noto Sans KR',sans-serif;
-}
-header {
-  padding: 24px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--line);
-}
-.logo { font-weight: 900; font-size: 21px; letter-spacing: -1px; }
-.logo span { color: var(--accent); }
-.header-label { font-size: 11px; letter-spacing: 2px; color: var(--muted); }
-main { max-width: 1100px; margin: auto; padding: 65px 6%; }
-.hero { margin-bottom: 55px; }
-.eyebrow { font-size: 11px; letter-spacing: 3px; color: var(--accent); font-weight: 800; }
-h1 {
-  font-size: clamp(48px, 10vw, 100px);
-  line-height: .95;
-  letter-spacing: -7px;
-  margin: 18px 0;
-  font-weight: 900;
-}
-h1 span { color: var(--accent); }
-.subtitle { color: var(--muted); font-size: 14px; }
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.month-title { font-size: 27px; font-weight: 800; }
-.nav { display: flex; gap: 8px; }
-.nav button {
-  background: transparent; border: 1px solid var(--line);
-  width: 38px; height: 38px; cursor: pointer; font-size: 18px;
-}
-.weekdays, .calendar {
-  display: grid;
-  grid-template-columns: repeat(7,1fr);
-}
-.weekdays div {
-  padding: 13px 4px; font-size: 11px;
-  color: var(--muted); text-align: center;
-  border-bottom: 1px solid var(--line);
-}
-.day {
-  min-height: 85px; border: 0;
-  border-bottom: 1px solid var(--line);
-  background: transparent; position: relative;
-  cursor: pointer; font: inherit; font-size: 14px;
-}
-.day:hover { background: #ebe9e1; }
-.day.selected { background: var(--ink); color: white; }
-.day.has-show::after {
-  content: ''; position: absolute; bottom: 13px;
-  left: 50%; transform: translateX(-50%);
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--accent);
-}
-.day.selected.has-show::after { background: white; }
-.day.empty { cursor: default; }
-.details {
-  margin-top: 65px; padding: 30px 0;
-  border-top: 2px solid var(--ink);
-}
-.detail-date { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: 2px; }
-.detail-title { font-size: 32px; font-weight: 900; margin: 12px 0; }
-.meta { color: var(--muted); font-size: 13px; margin-bottom: 35px; }
-.setlist-head {
-  display: flex; justify-content: space-between;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 12px; font-size: 11px;
-  letter-spacing: 2px; font-weight: 800;
-}
-.song {
-  display: flex; padding: 14px 5px;
-  border-bottom: 1px solid var(--line);
-  font-size: 14px; gap: 20px;
-}
-.song-num { color: var(--accent); width: 25px; font-weight: 800; }
-.empty-message { color: var(--muted); padding: 30px 0; font-size: 14px; }
-.search-area {
-  margin-top: 70px; padding-top: 35px;
-  border-top: 2px solid var(--ink);
-}
-.search-title { font-size: 28px; font-weight: 900; margin-bottom: 20px; }
-.search-box { display: flex; border-bottom: 2px solid var(--ink); }
-.search-box input {
-  flex: 1; min-width: 0; padding: 15px 5px;
-  border: 0; background: transparent;
-  font: inherit; font-size: 16px; outline: none;
-}
-.search-box button {
-  background: var(--accent); color: white;
-  border: 0; padding: 0 25px; cursor: pointer;
-  font-weight: 700;
-}
-.result { padding: 16px 5px; border-bottom: 1px solid var(--line); cursor: pointer; }
-.result:hover { background: #ebe9e1; }
-.result small { color: var(--accent); font-weight: 700; }
-footer {
-  padding: 30px 6%; border-top: 1px solid var(--line);
-  display: flex; justify-content: space-between;
-  font-size: 11px; color: var(--muted);
-}
-@media(max-width:600px) {
-  main { padding: 45px 5%; }
-  h1 { letter-spacing: -4px; }
-  .day { min-height: 58px; }
-  .detail-title { font-size: 25px; }
-  header { padding: 20px 5%; }
-  .header-label { font-size: 9px; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans','Noto Sans KR',sans-serif}
+header{padding:22px 6%;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:21px;font-weight:900;letter-spacing:-1px}
+.logo span{color:var(--accent)}
+.header-label{font-size:10px;letter-spacing:2px;color:var(--muted)}
+main{max-width:1120px;margin:auto;padding:65px 6%}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:3px;color:var(--accent)}
+.hero{margin-bottom:65px}
+h1{font-size:clamp(55px,10vw,108px);line-height:.9;letter-spacing:-7px;margin:20px 0;font-weight:900}
+h1 span{color:var(--accent)}
+.subtitle{color:var(--muted);font-size:14px}
+.section{margin-bottom:70px}
+.section-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+.section-title{font-size:25px;font-weight:900;letter-spacing:-1px}
+.month{font-size:25px;font-weight:800}
+.nav{display:flex;gap:8px}
+button{font-family:inherit}
+.nav button{width:40px;height:40px;background:none;border:1px solid var(--line);font-size:18px;cursor:pointer}
+.nav button:hover{background:var(--ink);color:white}
+.weekdays,.calendar{display:grid;grid-template-columns:repeat(7,1fr)}
+.weekdays div{text-align:center;padding:13px 0;font-size:10px;color:var(--muted);border-bottom:1px solid var(--line)}
+.day{height:82px;background:transparent;border:0;border-bottom:1px solid var(--line);cursor:pointer;position:relative;font-size:14px;color:var(--ink)}
+.day:hover{background:var(--card)}
+.day.selected{background:var(--ink);color:white}
+.day.has-show:after{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);position:absolute;bottom:12px;left:50%;transform:translateX(-50%)}
+.day.selected.has-show:after{background:white}
+.day.empty{cursor:default}
+.legend{font-size:11px;color:var(--muted);margin-top:12px}
+.dot{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;margin-right:7px}
+.detail{border-top:2px solid var(--ink);padding-top:28px}
+.detail-date{font-size:12px;letter-spacing:2px;color:var(--accent);font-weight:800}
+.detail-title{font-size:clamp(25px,4vw,38px);font-weight:900;margin:12px 0}
+.meta{font-size:13px;color:var(--muted);line-height:2}
+.poster{width:100%;max-width:240px;aspect-ratio:3/4;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;margin:20px 0}
+.show-card{padding:25px 0;border-bottom:1px solid var(--line)}
+.setlist-head{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line);font-size:10px;letter-spacing:2px;font-weight:800}
+.song{display:flex;align-items:center;gap:18px;padding:13px 5px;border-bottom:1px solid var(--line);font-size:14px}
+.song-num{width:25px;color:var(--accent);font-weight:800}
+.song.encore{background:#eee9df}
+.encore-label{font-size:10px;letter-spacing:2px;color:var(--accent);font-weight:800;padding:18px 5px 5px}
+.duplicate{font-size:10px;color:var(--accent);margin-left:auto}
+.empty-message{color:var(--muted);padding:25px 0;font-size:13px}
+.search-section{border-top:2px solid var(--ink);padding-top:35px}
+.search-title{font-size:clamp(30px,5vw,48px);font-weight:900;letter-spacing:-2px;margin:10px 0 25px}
+.search-box{display:flex;border-bottom:2px solid var(--ink)}
+.search-box input{flex:1;min-width:0;background:none;border:0;padding:16px 5px;font:inherit;font-size:16px;outline:none}
+.search-box button{background:var(--accent);color:white;border:0;padding:0 25px;font-size:11px;font-weight:800;cursor:pointer}
+.search-hint{font-size:11px;color:var(--muted);margin:12px 0 20px}
+.result{padding:18px 5px;border-bottom:1px solid var(--line);cursor:pointer}
+.result:hover{background:var(--card)}
+.result small{color:var(--accent);font-weight:700;font-size:11px}
+.result strong{display:block;margin-top:5px}
+.result-info{font-size:12px;color:var(--muted);margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:45px}
+.stat{padding:22px 10px;border-right:1px solid var(--line)}
+.stat:last-child{border:0}
+.stat strong{font-size:30px;display:block}
+.stat span{font-size:10px;color:var(--muted);letter-spacing:1px}
+footer{border-top:1px solid var(--line);padding:30px 6%;display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+@media(max-width:600px){
+ main{padding:45px 5%}
+ h1{letter-spacing:-4px}
+ header{padding:20px 5%}
+ .day{height:59px}
+ .stats{margin-top:30px}
+ .section{margin-bottom:55px}
+ .header-label{font-size:8px}
 }
 </style>
 </head>
@@ -140,16 +92,20 @@ footer {
   <div class="logo">87dance<span>.</span></div>
   <div class="header-label">LIVE PERFORMANCE ARCHIVE</div>
 </header>
+
 <main>
   <section class="hero">
     <div class="eyebrow">MUSIC ARCHIVE / 001</div>
     <h1>87dance<br><span>SETLIST.</span></h1>
-    <p class="subtitle">A collection of live performances &amp; memories.</p>
+    <p class="subtitle">A collection of live performances & memories.</p>
   </section>
 
-  <section>
-    <div class="section-head">
-      <div class="month-title" id="monthTitle"></div>
+  <section class="section">
+    <div class="section-top">
+      <div>
+        <div class="eyebrow">PERFORMANCE CALENDAR</div>
+        <div class="month" id="monthTitle"></div>
+      </div>
       <div class="nav">
         <button id="prev" aria-label="이전 달">←</button>
         <button id="next" aria-label="다음 달">→</button>
@@ -160,85 +116,145 @@ footer {
       <div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
     </div>
     <div class="calendar" id="calendar"></div>
+    <div class="legend"><span class="dot"></span> PERFORMANCE</div>
   </section>
 
-  <section class="details" id="details">
+  <section class="section detail" id="detail">
+    <div class="eyebrow">SELECTED PERFORMANCE</div>
     <div class="detail-date" id="detailDate">SELECT A DATE</div>
-    <div class="detail-title" id="detailTitle">공연 날짜를 선택해 주세요.</div>
-    <div class="meta" id="meta">캘린더에서 날짜를 클릭하면 공연 기록이 나타납니다.</div>
-    <div id="songs"></div>
+    <div class="detail-title" id="detailTitle">날짜를 선택해 주세요.</div>
+    <div class="meta" id="detailMeta">공연이 있는 날짜를 선택하면 상세 정보가 나타납니다.</div>
+    <div id="showList"></div>
   </section>
 
-  <section class="search-area">
+  <section class="section search-section">
     <div class="eyebrow">FIND YOUR SONG</div>
     <div class="search-title">SEARCH SETLIST.</div>
     <div class="search-box">
-      <input id="searchInput" type="search" placeholder="곡 제목을 검색하세요">
+      <input id="searchInput" type="search" placeholder="곡 제목, 별칭을 검색하세요">
       <button id="searchBtn">SEARCH ↗</button>
     </div>
+    <div class="search-hint">정식 제목, 한글 표기, 영문 표기, 별칭으로 검색할 수 있습니다.</div>
     <div id="results" aria-live="polite"></div>
   </section>
+
+  <section class="section">
+    <div class="eyebrow">ARCHIVE DATA</div>
+    <div class="section-title">ARCHIVE STATISTICS.</div>
+    <div class="stats">
+      <div class="stat"><strong id="showCount">0</strong><span>SHOWS</span></div>
+      <div class="stat"><strong id="songCount">0</strong><span>UNIQUE SONGS</span></div>
+      <div class="stat"><strong id="trackCount">0</strong><span>TOTAL TRACKS</span></div>
+    </div>
+  </section>
 </main>
+
 <footer>
   <span>87dance SETLIST ARCHIVE</span>
   <span>MADE FOR MUSIC.</span>
 </footer>
 
 <script>
-// 공연 데이터: 실제 공연 기록으로 교체해 주세요.
+// ======================================
+// 공연 및 곡 데이터
+// 실제 공연 정보를 이곳에 추가합니다.
+// ======================================
+
+const songs = [
+  {title:"Sample Song A",aliases:["sample song a","샘플송 A","SSA"]},
+  {title:"Sample Song B",aliases:["sample song b","샘플송 B"]},
+  {title:"Sample Song C",aliases:["sample song c","샘플송 C"]},
+  {title:"Sample Song D",aliases:["sample song d","샘플송 D"]}
+];
+
 const performances = [
   {
-    date: "2026-11-05",
-    title: "AUTUMN LIVE",
-    venue: "ROLLING HALL",
-    time: "19:00",
-    songs: ["Sample Song A", "Sample Song B", "Sample Song C", "Sample Song D"]
+    id:1,
+    date:"2026-11-05",
+    title:"SAMPLE LIVE",
+    venue:"ROLLING HALL",
+    time:"19:00",
+    poster:"",
+    setlist:[
+      {song:"Sample Song A",encore:false},
+      {song:"Sample Song B",encore:false},
+      {song:"Sample Song C",encore:false},
+      {song:"Sample Song D",encore:false},
+      {song:"Sample Song A",encore:true}
+    ]
   },
   {
-    date: "2026-11-12",
-    title: "CLUB PERFORMANCE",
-    venue: "MUSIC SPACE",
-    time: "18:00",
-    songs: ["Sample Song B", "Sample Song E", "Sample Song F"]
+    id:2,
+    date:"2026-11-12",
+    title:"SAMPLE CLUB SHOW",
+    venue:"MUSIC SPACE",
+    time:"18:00",
+    poster:"",
+    setlist:[
+      {song:"Sample Song B",encore:false},
+      {song:"Sample Song C",encore:false},
+      {song:"Sample Song A",encore:true}
+    ]
   },
   {
-    date: "2026-10-21",
-    title: "LIVE SESSION",
-    venue: "HONGDAE",
-    time: "19:30",
-    songs: ["Sample Song A", "Sample Song D", "Sample Song G"]
+    id:3,
+    date:"2026-10-21",
+    title:"SAMPLE SESSION",
+    venue:"HONGDAE",
+    time:"19:30",
+    poster:"",
+    setlist:[
+      {song:"Sample Song A",encore:false},
+      {song:"Sample Song D",encore:false}
+    ]
   }
 ];
 
-let current = new Date(2026, 10, 1);
-let selectedDate = null;
+// 검색어 표준화: 대소문자 및 공백 차이 제거
+function normalize(value){
+  return value.toLocaleLowerCase('ko-KR').replace(/\s+/g,'').trim();
+}
 
-function renderCalendar() {
-  const year = current.getFullYear();
-  const month = current.getMonth();
-  document.getElementById('monthTitle').textContent =
-    `${year} / ${String(month + 1).padStart(2,'0')}`;
+// 곡의 정식 제목 찾기
+function getSongTitle(query){
+  const q=normalize(query);
+  return songs.find(song=>
+    [song.title,...song.aliases].some(alias=>normalize(alias)===q)
+  )?.title;
+}
 
-  const first = new Date(year, month, 1).getDay();
-  const total = new Date(year, month + 1, 0).getDate();
-  const cal = document.getElementById('calendar');
-  cal.innerHTML = '';
+// 월별 캘린더
+let current=new Date(2026,10,1);
+let selectedDate=null;
 
-  for (let i = 0; i < first; i++) {
-    const blank = document.createElement('div');
-    blank.className = 'day empty';
+function renderCalendar(){
+  const year=current.getFullYear();
+  const month=current.getMonth();
+  document.getElementById('monthTitle').textContent=
+    `${year} / ${String(month+1).padStart(2,'0')}`;
+
+  const cal=document.getElementById('calendar');
+  cal.innerHTML='';
+  const first=new Date(year,month,1).getDay();
+  const total=new Date(year,month+1,0).getDate();
+
+  for(let i=0;i<first;i++){
+    const blank=document.createElement('div');
+    blank.className='day empty';
     cal.appendChild(blank);
   }
 
-  for (let d = 1; d <= total; d++) {
-    const date = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const btn = document.createElement('button');
-    btn.className = 'day';
-    btn.textContent = d;
-    if (performances.some(p => p.date === date)) btn.classList.add('has-show');
-    if (selectedDate === date) btn.classList.add('selected');
-    btn.addEventListener('click', () => {
-      selectedDate = date;
+  for(let d=1;d<=total;d++){
+    const date=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const btn=document.createElement('button');
+    btn.className='day';
+    btn.textContent=d;
+
+    if(performances.some(p=>p.date===date))btn.classList.add('has-show');
+    if(selectedDate===date)btn.classList.add('selected');
+
+    btn.addEventListener('click',()=>{
+      selectedDate=date;
       renderCalendar();
       renderDetails(date);
     });
@@ -246,98 +262,186 @@ function renderCalendar() {
   }
 }
 
-function renderDetails(date) {
-  const items = performances.filter(p => p.date === date);
-  document.getElementById('detailDate').textContent = date;
-  const title = document.getElementById('detailTitle');
-  const meta = document.getElementById('meta');
-  const songs = document.getElementById('songs');
-  songs.innerHTML = '';
+// 공연 상세 정보
+function renderDetails(date){
+  const items=performances.filter(p=>p.date===date);
+  document.getElementById('detailDate').textContent=date;
+  const title=document.getElementById('detailTitle');
+  const meta=document.getElementById('detailMeta');
+  const list=document.getElementById('showList');
+  list.innerHTML='';
 
-  if (!items.length) {
-    title.textContent = '공연 기록이 없습니다.';
-    meta.textContent = '다른 날짜를 선택해 주세요.';
+  if(!items.length){
+    title.textContent='NO PERFORMANCE';
+    meta.textContent='이 날짜에는 등록된 공연이 없습니다.';
     return;
   }
 
-  title.textContent = items.length > 1 ? `${items.length} SHOWS` : items[0].title;
-  items.forEach(p => {
-    const info = document.createElement('div');
-    info.className = 'meta';
-    info.textContent = `${p.venue}  /  ${p.time}`;
-    songs.appendChild(info);
+  title.textContent=items.length===1?items[0].title:`${items.length} PERFORMANCES`;
+  meta.textContent=`${items.length}개의 공연 기록`;
 
-    const head = document.createElement('div');
-    head.className = 'setlist-head';
-    head.innerHTML = '<span>SETLIST</span><span>TRACKS</span>';
-    songs.appendChild(head);
+  items.forEach(p=>{
+    const card=document.createElement('div');
+    card.className='show-card';
 
-    p.songs.forEach((song, i) => {
-      const row = document.createElement('div');
-      row.className = 'song';
-      const num = document.createElement('span');
-      num.className = 'song-num';
-      num.textContent = String(i+1).padStart(2,'0');
-      const name = document.createElement('span');
-      name.textContent = song;
-      row.append(num, name);
-      songs.appendChild(row);
-    });
+    const info=document.createElement('div');
+    info.className='meta';
+    info.textContent=`${p.venue}  /  ${p.time}`;
+    card.appendChild(info);
+
+    if(p.poster){
+      const img=document.createElement('img');
+      img.src=p.poster;
+      img.alt=p.title+' 공연 포스터';
+      img.style.cssText='width:100%;max-width:240px;display:block;margin:20px 0';
+      card.appendChild(img);
+    }else{
+      const poster=document.createElement('div');
+      poster.className='poster';
+      poster.textContent='POSTER IMAGE';
+      card.appendChild(poster);
+    }
+
+    const head=document.createElement('div');
+    head.className='setlist-head';
+    head.innerHTML='<span>SETLIST</span><span>TRACKS</span>';
+    card.appendChild(head);
+
+    const normal=p.setlist.filter(t=>!t.encore);
+    const encore=p.setlist.filter(t=>t.encore);
+
+    const counts={};
+    p.setlist.forEach(t=>counts[t.song]=(counts[t.song]||0)+1);
+    const seen={};
+
+    function addTrack(track,index,isEncore){
+      const row=document.createElement('div');
+      row.className='song'+(isEncore?' encore':'');
+      const num=document.createElement('span');
+      num.className='song-num';
+      num.textContent=String(index+1).padStart(2,'0');
+      const name=document.createElement('span');
+      name.textContent=track.song;
+      row.append(num,name);
+
+      seen[track.song]=(seen[track.song]||0)+1;
+      if(counts[track.song]>1){
+        const duplicate=document.createElement('span');
+        duplicate.className='duplicate';
+        duplicate.textContent='REPEAT ×'+counts[track.song];
+        row.appendChild(duplicate);
+      }
+      card.appendChild(row);
+    }
+
+    normal.forEach((t,i)=>addTrack(t,i,false));
+
+    if(encore.length){
+      const label=document.createElement('div');
+      label.className='encore-label';
+      label.textContent='ENCORE';
+      card.appendChild(label);
+      encore.forEach((t,i)=>addTrack(t,normal.length+i,true));
+    }
+    list.appendChild(card);
   });
 }
 
-function searchSongs() {
-  const q = document.getElementById('searchInput').value.trim().toLowerCase();
-  const results = document.getElementById('results');
-  results.innerHTML = '';
-  if (!q) {
-    results.textContent = '검색할 곡 제목을 입력해 주세요.';
+// 곡 검색
+function searchSongs(){
+  const query=document.getElementById('searchInput').value.trim();
+  const results=document.getElementById('results');
+  results.innerHTML='';
+
+  if(!query){
+    results.textContent='검색어를 입력해 주세요.';
     return;
   }
 
-  const matches = performances.flatMap(p =>
-    p.songs.filter(s => s.toLowerCase().includes(q))
-      .map(s => ({...p, matchedSong: s}))
+  const q=normalize(query);
+
+  // 별칭 일치 또는 제목 부분 검색
+  const matched=songs.filter(song=>
+    [song.title,...song.aliases].some(alias=>
+      normalize(alias)===q ||
+      normalize(alias).includes(q)
+    )
   );
 
-  if (!matches.length) {
-    results.textContent = '검색 결과가 없습니다.';
+  if(!matched.length){
+    results.textContent='검색 결과가 없습니다.';
     return;
   }
 
-  matches.forEach(p => {
-    const item = document.createElement('div');
-    item.className = 'result';
-    const small = document.createElement('small');
-    small.textContent = p.date + ' / ' + p.title;
-    const name = document.createElement('div');
-    name.textContent = p.matchedSong;
-    item.append(small, name);
-    item.addEventListener('click', () => {
-      selectedDate = p.date;
-      current = new Date(Number(p.date.slice(0,4)), Number(p.date.slice(5,7))-1, 1);
-      renderCalendar();
-      renderDetails(p.date);
-      document.getElementById('details').scrollIntoView({behavior:'smooth'});
+  matched.forEach(song=>{
+    const history=performances.filter(p=>
+      p.setlist.some(t=>t.song===song.title)
+    );
+
+    const heading=document.createElement('div');
+    heading.className='result';
+    const name=document.createElement('strong');
+    name.textContent=song.title;
+    const count=document.createElement('div');
+    count.className='result-info';
+    count.textContent=`총 ${history.length}회 공연에서 연주`;
+    heading.append(name,count);
+    results.appendChild(heading);
+
+    history.forEach(p=>{
+      const row=document.createElement('div');
+      row.className='result';
+      const small=document.createElement('small');
+      small.textContent=p.date+' / '+p.title;
+      const trackInfo=p.setlist
+        .map((t,i)=>({...t,index:i+1}))
+        .filter(t=>t.song===song.title)
+        .map(t=>`${t.index}번째${t.encore?' (ENCORE)':''}`)
+        .join(', ');
+
+      const detail=document.createElement('div');
+      detail.className='result-info';
+      detail.textContent=`${p.venue} · ${trackInfo}`;
+      row.append(small,detail);
+      row.addEventListener('click',()=>{
+        selectedDate=p.date;
+        current=new Date(
+          Number(p.date.slice(0,4)),
+          Number(p.date.slice(5,7))-1,1
+        );
+        renderCalendar();
+        renderDetails(p.date);
+        document.getElementById('detail').scrollIntoView({behavior:'smooth'});
+      });
+      results.appendChild(row);
     });
-    results.appendChild(item);
   });
 }
 
-document.getElementById('prev').addEventListener('click', () => {
+// 통계
+function renderStats(){
+  const allTracks=performances.flatMap(p=>p.setlist);
+  const unique=new Set(allTracks.map(t=>t.song));
+  document.getElementById('showCount').textContent=performances.length;
+  document.getElementById('songCount').textContent=unique.size;
+  document.getElementById('trackCount').textContent=allTracks.length;
+}
+
+document.getElementById('prev').addEventListener('click',()=>{
   current.setMonth(current.getMonth()-1);
   renderCalendar();
 });
-document.getElementById('next').addEventListener('click', () => {
+document.getElementById('next').addEventListener('click',()=>{
   current.setMonth(current.getMonth()+1);
   renderCalendar();
 });
-document.getElementById('searchBtn').addEventListener('click', searchSongs);
-document.getElementById('searchInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') searchSongs();
+document.getElementById('searchBtn').addEventListener('click',searchSongs);
+document.getElementById('searchInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter')searchSongs();
 });
 
 renderCalendar();
+renderStats();
 </script>
 </body>
 </html>
