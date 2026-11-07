@@ -317,6 +317,7 @@ h1 {
 }
 
 .details.open { display:block; }
+.other-description { white-space:pre-wrap; font-size:12px; line-height:1.7; margin:0; }
 
 .event-group .inline-details {
   margin:0 0 12px;
@@ -511,7 +512,7 @@ footer {
 
     <div id="selectedEvents">
       <div class="empty-message">
-        캘린더에서 공연 날짜를 선택하면 공연 정보가 표시됩니다.
+        캘린더에서 날짜를 선택하면 공연·기념일·일정 정보가 표시됩니다.
       </div>
     </div>
 
@@ -838,6 +839,9 @@ const initialToday = new Date();
 let currentMonth = new Date(initialToday.getFullYear(), initialToday.getMonth(), 1);
 let selectedDate = "";
 let selectedPerformanceIndex = null;
+let selectedOtherItem = null;
+let anniversaries = [];
+let otherEvents = [];
 
 function parsedSongs(event) {
   return event.songs.split("|").filter(Boolean).map(raw => {
@@ -865,11 +869,29 @@ function formatDate(date) {
 
 function hideReopenButton() {
   $("reopenDetail").style.display = "none";
+  $("reopenDetail").textContent = "VIEW SETLIST ↗";
 }
 
 // ----------------------------------
 // 캘린더
 // ----------------------------------
+
+// 기념일은 "매년 반복"을 선택했을 때 등록 연도와 관계없이 월/일을 기준으로 표시합니다.
+function anniversaryMatchesDate(item, date) {
+  const itemDate = String(item.date || "");
+  if(item.repeat === "yearly") return itemDate.slice(5) === date.slice(5);
+  return itemDate === date;
+}
+
+function getNonPerformanceItems(date) {
+  const dayAnniversaries = anniversaries
+    .filter(item => anniversaryMatchesDate(item, date))
+    .map(item => ({...item, _kind: "anniversary"}));
+  const dayEvents = otherEvents
+    .filter(item => item.date === date)
+    .map(item => ({...item, _kind: "event"}));
+  return [...dayAnniversaries, ...dayEvents];
+}
 
 function renderCalendar() {
   const year = currentMonth.getFullYear();
@@ -879,7 +901,7 @@ function renderCalendar() {
 
   const years = new Set();
 
-  performances.forEach(p => {
+  performances.concat(anniversaries,otherEvents).forEach(p => {
     const y = Number(String(p.date).slice(0,4));
     if(Number.isFinite(y)) years.add(y);
   });
@@ -925,23 +947,24 @@ function renderCalendar() {
   for(let d=1;d<=last;d++) {
     const date = `${year}-${String(month+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
     const dayEvents = performances.filter(p=>p.date===date);
+    const otherDayItems = getNonPerformanceItems(date);
+    const hasItems = dayEvents.length + otherDayItems.length > 0;
     const today = date===todayString;
     const selected = date===selectedDate;
 
     html += `
       <button class="day
-        ${dayEvents.length ? "has-event" : ""}
+        ${hasItems ? "has-event" : ""}
         ${today ? "today" : ""}
         ${selected ? "selected" : ""}"
         data-date="${date}">
 
         <span class="day-number">${today ? `<span class="today-dot" aria-label="오늘">${d}</span>` : d}</span>
 
-        ${dayEvents.length ? `
+        ${hasItems ? `
           <span class="calendar-event-names">
-            ${dayEvents.map(p=>`
-              <span class="calendar-event-name">${p.title}</span>
-            `).join("")}
+            ${dayEvents.map(p=>`<span class="calendar-event-name">${escapeHtml(p.title)}</span>`).join("")}
+            ${otherDayItems.map(x=>`<span class="calendar-event-name">${x._kind==='anniversary'?'✦ ':''}${escapeHtml(x.title)}</span>`).join("")}
           </span>
         ` : ""}
 
@@ -955,6 +978,7 @@ function renderCalendar() {
     btn.addEventListener("click",()=>{
       selectedDate = btn.dataset.date;
       selectedPerformanceIndex = null;
+      selectedOtherItem = null;
       renderCalendar();
       renderSelectedEvents();
     });
@@ -972,45 +996,92 @@ function renderSelectedEvents() {
     return;
   }
 
-  const events = performances
-    .map((p,index)=>({p,index}))
-    .filter(({p})=>p.date===selectedDate);
+  const livePerformances = performances
+    .map((performance, index) => ({performance, index}))
+    .filter(({performance}) => performance.date === selectedDate);
+  const otherOnDate = getNonPerformanceItems(selectedDate);
+  const total = livePerformances.length + otherOnDate.length;
 
   $("selectedDate").textContent = formatDate(selectedDate);
-  $("selectedCount").textContent = `${events.length} PERFORMANCE`;
+  $("selectedCount").textContent = `${total} ITEMS`;
 
-  if(!events.length) {
-    $("selectedEvents").innerHTML = `
-      <div class="empty-message">등록된 공연이 없습니다.</div>
-    `;
+  if(!total) {
+    $("selectedEvents").innerHTML = '<div class="empty-message">등록된 일정이 없습니다.</div>';
     $("details").classList.remove("open");
+    selectedOtherItem = null;
     hideReopenButton();
     return;
   }
 
-  $("selectedEvents").innerHTML = events.map(({p,index})=>`
+  const performanceCards = livePerformances.map(({performance, index}) => `
     <div class="event-card" data-index="${index}">
-      <div class="event-date">${formatDate(p.date)}</div>
+      <div class="event-date">공연</div>
       <div>
-        <div class="event-title">${escapeHtml(p.title)}</div>
-        <div class="event-venue">${escapeHtml(p.venue)}</div>
+        <div class="event-title">${escapeHtml(performance.title)}</div>
+        <div class="event-venue">${escapeHtml(performance.venue)}</div>
       </div>
-      <div class="event-artist">${escapeHtml(p.artist)}</div>
+      <div class="event-artist">${escapeHtml(performance.artist)}</div>
     </div>
   `).join("");
 
-  document.querySelectorAll("#selectedEvents .event-card").forEach(card=>{
-    card.addEventListener("click",()=>{
-      renderDetails(Number(card.dataset.index));
-    });
+  const extraCards = otherOnDate.map((item, index) => `
+    <div class="event-card" data-other-index="${index}">
+      <div class="event-date">${item._kind === 'anniversary' ? '기념일' : '일정'}</div>
+      <div>
+        <div class="event-title">${escapeHtml(item.title)}</div>
+        <div class="event-venue">${escapeHtml(item.venue || item.description || '')}</div>
+      </div>
+      <div class="event-artist">${item._kind === 'anniversary' ? (item.repeat === 'yearly' ? '매년 반복' : '기념일') : 'EVENT'}</div>
+    </div>
+  `).join("");
+
+  $("selectedEvents").innerHTML = performanceCards + extraCards;
+
+  document.querySelectorAll("#selectedEvents [data-index]").forEach(card => {
+    card.addEventListener("click", () => renderDetails(Number(card.dataset.index)));
+  });
+  document.querySelectorAll("#selectedEvents [data-other-index]").forEach(card => {
+    card.addEventListener("click", () => renderOtherDetails(otherOnDate[Number(card.dataset.otherIndex)]));
   });
 
-  if(events.length===1) {
-    renderDetails(events[0].index);
+  if(total === 1 && livePerformances.length === 1) {
+    renderDetails(livePerformances[0].index);
+  } else if(total === 1 && otherOnDate.length === 1) {
+    renderOtherDetails(otherOnDate[0]);
   } else {
     $("details").classList.remove("open");
+    selectedOtherItem = null;
     hideReopenButton();
   }
+}
+
+function renderOtherDetails(item) {
+  if(!item) return;
+  selectedPerformanceIndex = null;
+  selectedOtherItem = item;
+  const kindLabel = item._kind === 'anniversary' ? '기념일' : '일반 일정';
+  const repeatLabel = item._kind === 'anniversary'
+    ? (item.repeat === 'yearly' ? ' · 매년 반복' : ' · 해당 연도만')
+    : '';
+  const placeLabel = item.venue ? ` · ${escapeHtml(item.venue)}` : '';
+
+  $("details").innerHTML = `
+    <div class="details-top">
+      <div>
+        <div class="details-title">${escapeHtml(item.title)}</div>
+        <div class="details-meta">${kindLabel}${repeatLabel}${placeLabel}</div>
+      </div>
+      <button class="close-detail" aria-label="닫기">×</button>
+    </div>
+    ${item.description ? `<p class="other-description">${escapeHtml(item.description)}</p>` : ''}
+  `;
+  $("details").classList.add("open");
+  $("reopenDetail").style.display = "none";
+  $("reopenDetail").textContent = "VIEW DETAILS ↗";
+  $("details").querySelector(".close-detail").addEventListener("click", () => {
+    $("details").classList.remove("open");
+    $("reopenDetail").style.display = "inline-block";
+  });
 }
 
 // ----------------------------------
@@ -1019,6 +1090,7 @@ function renderSelectedEvents() {
 
 function renderDetails(index) {
   selectedPerformanceIndex = index;
+  selectedOtherItem = null;
   const p = performances[index];
   const songs = parsedSongs(p);
 
@@ -1049,6 +1121,7 @@ function renderDetails(index) {
 
   $("details").classList.add("open");
   $("reopenDetail").style.display = "none";
+  $("reopenDetail").textContent = "VIEW SETLIST ↗";
 
   $("details").querySelector(".close-detail").addEventListener("click",()=>{
     $("details").classList.remove("open");
@@ -1301,21 +1374,26 @@ function renderSearch() {
     result.directMatch || result.matchedSongs.length
   );
 
+  // 공연 검색 외에도 기념일/일반 일정 제목·장소·설명을 검색합니다.
+  const extraResults = [
+    ...anniversaries.map((item,index) => ({item,index,kind:'anniversary'})),
+    ...otherEvents.map((item,index) => ({item,index,kind:'event'}))
+  ].filter(({item}) => [item.title, item.venue, item.description].some(value =>
+    normalizeSearch(value).includes(normalizedQuery) ||
+    matchesEventAliasInText(value, query)
+  ));
+
   $("searchResults").innerHTML = `
     <div class="search-result-label">
-      SEARCH RESULTS — ${results.length}
+      SEARCH RESULTS — ${results.length + extraResults.length}
     </div>
 
-    ${results.length ? results.map(({performance,index,matchedSongs})=>`
+    ${results.map(({performance,index,matchedSongs})=>`
       <div class="event-card search-event-card" data-index="${index}">
         <div class="event-date">${formatDate(performance.date)}</div>
         <div>
-          <div class="event-title">
-            ${highlightText(performance.title,query)}
-          </div>
-          <div class="event-venue">
-            ${highlightText(performance.venue,query)}
-          </div>
+          <div class="event-title">${highlightText(performance.title,query)}</div>
+          <div class="event-venue">${highlightText(performance.venue,query)}</div>
           ${matchedSongs.length ? `
             <div class="search-match">
               ${matchedSongs.map(match=>
@@ -1324,36 +1402,67 @@ function renderSearch() {
             </div>
           ` : ""}
         </div>
-        <div class="event-artist">
-          ${escapeHtml(performance.artist)}
-        </div>
+        <div class="event-artist">${escapeHtml(performance.artist)}</div>
       </div>
-    `).join("") : `
-      <div class="empty-message">검색 결과가 없습니다.</div>
-    `}
+    `).join("")}
+
+    ${extraResults.map(({item,index,kind})=>`
+      <div class="event-card extra-search-card" data-kind="${kind}" data-extra-index="${index}">
+        <div class="event-date">${kind === 'anniversary' && item.repeat === 'yearly' ? '매년 ' + escapeHtml(String(item.date).slice(5).replace('-', '.')) : formatDate(item.date)}</div>
+        <div>
+          <div class="event-title">${highlightText(item.title,query)}</div>
+          <div class="event-venue">${highlightText(item.venue || item.description || '',query)}</div>
+        </div>
+        <div class="event-artist">${kind === 'anniversary' ? '기념일' : '일정'}</div>
+      </div>
+    `).join("")}
+
+    ${!results.length && !extraResults.length ? '<div class="empty-message">검색 결과가 없습니다.</div>' : ''}
   `;
 
   document.querySelectorAll(".search-event-card").forEach(card=>{
     card.addEventListener("click",()=>{
       const index = Number(card.dataset.index);
       const performance = performances[index];
-
       currentMonth = new Date(
         Number(performance.date.slice(0,4)),
         Number(performance.date.slice(5,7))-1,
         1
       );
-
       selectedDate = performance.date;
-
       renderCalendar();
       renderSelectedEvents();
       renderDetails(index);
+      $("selectedArea").scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  });
 
-      $("selectedArea").scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
+  document.querySelectorAll(".extra-search-card").forEach(card=>{
+    card.addEventListener("click",()=>{
+      const kind = card.dataset.kind;
+      const raw = kind === 'anniversary'
+        ? anniversaries[Number(card.dataset.extraIndex)]
+        : otherEvents[Number(card.dataset.extraIndex)];
+      if(!raw) return;
+
+      // 매년 반복되는 기념일은 현재 캘린더에 선택된 연도로 이동합니다.
+      let targetDate = raw.date;
+      if(kind === 'anniversary' && raw.repeat === 'yearly') {
+        const yearDate = `${currentMonth.getFullYear()}${raw.date.slice(4)}`;
+        const candidate = new Date(`${yearDate}T12:00:00`);
+        if(!Number.isNaN(candidate.getTime()) &&
+           candidate.getFullYear() === currentMonth.getFullYear() &&
+           candidate.getMonth()+1 === Number(raw.date.slice(5,7))) {
+          targetDate = yearDate;
+        }
+      }
+
+      currentMonth = new Date(Number(targetDate.slice(0,4)), Number(targetDate.slice(5,7))-1, 1);
+      selectedDate = targetDate;
+      renderCalendar();
+      renderSelectedEvents();
+      renderOtherDetails({...raw,_kind:kind});
+      $("selectedArea").scrollIntoView({behavior:"smooth",block:"start"});
     });
   });
 }
@@ -1400,6 +1509,8 @@ $("clearSearch").addEventListener("click",()=>{
 $("reopenDetail").addEventListener("click",()=>{
   if(selectedPerformanceIndex !== null) {
     renderDetails(selectedPerformanceIndex);
+  } else if(selectedOtherItem) {
+    renderOtherDetails(selectedOtherItem);
   }
 });
 
@@ -1436,6 +1547,8 @@ renderAll();
 
     if(row && row.data && Array.isArray(row.data.performances)) {
       performances = row.data.performances;
+      anniversaries = Array.isArray(row.data.anniversaries) ? row.data.anniversaries : [];
+      otherEvents = Array.isArray(row.data.events) ? row.data.events : [];
 
       songAliases = mergeAliasMaps(
         songAliases,
