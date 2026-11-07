@@ -244,6 +244,9 @@ h1 {
 }
 
 .day.selected .calendar-event-name { color:white; }
+/* 기념일 제목은 공연·일반 일정과 구분되는 회색 */
+.calendar-event-name.anniversary { color:#999999; }
+.day.selected .calendar-event-name.anniversary { color:#bdbdbd; }
 .day.empty { pointer-events:none; }
 
 .selected-area {
@@ -964,7 +967,7 @@ function renderCalendar() {
         ${hasItems ? `
           <span class="calendar-event-names">
             ${dayEvents.map(p=>`<span class="calendar-event-name">${escapeHtml(p.title)}</span>`).join("")}
-            ${otherDayItems.map(x=>`<span class="calendar-event-name">${x._kind==='anniversary'?'✦ ':''}${escapeHtml(x.title)}</span>`).join("")}
+            ${otherDayItems.map(x=>`<span class="calendar-event-name${x._kind==='anniversary'?' anniversary':''}">${x._kind==='anniversary'?'✦ ':''}${escapeHtml(x.title)}</span>`).join("")}
           </span>
         ` : ""}
 
