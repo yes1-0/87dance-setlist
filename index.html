@@ -61,7 +61,7 @@ header {
 }
 
 h1 {
-  font-size:clamp(36px,7vw,68px);
+  font-size:clamp(27px,6.2vw,68px);
   letter-spacing:-.07em;
   line-height:1;
   margin:17px 0 12px;
@@ -437,7 +437,7 @@ footer {
   .page { padding:30px 18px 70px; }
 
   h1 {
-    font-size:clamp(30px,8vw,46px);
+    font-size:clamp(24px,6vw,40px);
   }
 
   .day {
@@ -995,7 +995,32 @@ function renderCalendar() {
 // 날짜별 공연 정보
 // ----------------------------------
 
+// 상세 정보와 다시 열기 버튼을 선택한 카드 바로 아래로 옮깁니다.
+function mountDetailsAfterCard(card) {
+  if (!card) return;
+  card.after($("details"), $("reopenDetail"));
+}
+
+// 날짜 목록을 다시 그리기 전에 상세 요소를 목록 밖으로 옮겨
+// innerHTML 교체 시 상세 요소가 사라지는 일을 방지합니다.
+function restoreDetailsPlacement() {
+  $("selectedArea").append($("details"), $("reopenDetail"));
+}
+
+function findOtherCard(item) {
+  const index = getNonPerformanceItems(selectedDate).findIndex(candidate =>
+    candidate._kind === item._kind &&
+    candidate.date === item.date &&
+    candidate.title === item.title &&
+    candidate.repeat === item.repeat &&
+    candidate.venue === item.venue &&
+    candidate.description === item.description
+  );
+  return index < 0 ? null : $("selectedEvents").querySelector(`[data-other-index="${index}"]`);
+}
+
 function renderSelectedEvents() {
+  restoreDetailsPlacement();
   if(!selectedDate) {
     $("selectedDate").textContent = "날짜를 선택해주세요";
     $("selectedCount").textContent = "";
@@ -1047,13 +1072,13 @@ function renderSelectedEvents() {
     card.addEventListener("click", () => renderDetails(Number(card.dataset.index)));
   });
   document.querySelectorAll("#selectedEvents [data-other-index]").forEach(card => {
-    card.addEventListener("click", () => renderOtherDetails(otherOnDate[Number(card.dataset.otherIndex)]));
+    card.addEventListener("click", () => renderOtherDetails(otherOnDate[Number(card.dataset.otherIndex)], card));
   });
 
   if(total === 1 && livePerformances.length === 1) {
     renderDetails(livePerformances[0].index);
   } else if(total === 1 && otherOnDate.length === 1) {
-    renderOtherDetails(otherOnDate[0]);
+    renderOtherDetails(otherOnDate[0], $("selectedEvents").querySelector('[data-other-index="0"]'));
   } else {
     $("details").classList.remove("open");
     selectedOtherItem = null;
@@ -1061,8 +1086,9 @@ function renderSelectedEvents() {
   }
 }
 
-function renderOtherDetails(item) {
+function renderOtherDetails(item, card = null) {
   if(!item) return;
+  mountDetailsAfterCard(card || findOtherCard(item));
   selectedPerformanceIndex = null;
   selectedOtherItem = item;
   const kindLabel = item._kind === 'anniversary' ? '기념일' : '일반 일정';
@@ -1095,6 +1121,8 @@ function renderOtherDetails(item) {
 // ----------------------------------
 
 function renderDetails(index) {
+  const card = $("selectedEvents").querySelector(`[data-index="${index}"]`);
+  mountDetailsAfterCard(card);
   selectedPerformanceIndex = index;
   selectedOtherItem = null;
   const p = performances[index];
