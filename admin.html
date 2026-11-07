@@ -9,6 +9,23 @@ textarea,
 select {
   font-size: 16px !important;
 }
+
+.login-switch{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.signup-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.signup-head h2{margin:0}
+.alias-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+.alias-choice{display:flex;flex-direction:column;align-items:flex-start;gap:10px;text-align:left;background:white;border:1px solid var(--line);padding:22px;cursor:pointer;min-height:160px}
+.alias-choice:hover,.alias-choice:focus-visible{border-color:var(--ink);background:var(--soft)}
+.alias-choice strong{font-size:17px;font-weight:600}
+.alias-choice small{font-size:12px;color:var(--muted);line-height:1.6}
+.alias-choice span{font-size:12px;margin-top:auto}
+.alias-section-heading{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:22px}
+.alias-section-heading h2{margin:0}
+.alias-edit-layout{grid-template-columns:minmax(190px,300px) minmax(0,1fr)}
+.editor-subhead{margin-top:28px!important}
+#pendingEditorList .item,#editorList .item{cursor:default}
+.editor-action{margin-top:10px}
+@media(max-width:700px){.alias-choices{grid-template-columns:1fr}.alias-choice{min-height:120px}.alias-edit-layout{grid-template-columns:1fr}}
 </style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body><header><div class="eyebrow">SETLIST ARCHIVE / MANAGEMENT</div><h1>87dance admin</h1></header><section id="loginPanel" class="wrap" style="max-width:420px;margin:54px auto">
   <section class="panel">
     <h2>관리자 로그인</h2>
@@ -19,15 +36,61 @@ select {
       <button class="btn dark" type="submit">로그인</button>
     </form>
     <div class="status" id="loginStatus" aria-live="polite"></div>
+    <div class="login-switch"><span class="hint">아직 계정이 없으신가요?</span> <button class="btn" id="openSignup" type="button">회원가입</button></div>
+  </section>
+</section>
+<section id="signupPanel" class="wrap hidden" style="max-width:440px;margin:40px auto">
+  <section class="panel">
+    <div class="signup-head"><h2>편집자 회원가입</h2><button class="btn" id="backToLogin" type="button">← 로그인으로</button></div>
+    <p class="hint">가입 후 이메일 인증을 마치고, 사이트 소유자가 편집 권한을 승인하면 일정 수정이 가능합니다. 로그인할 때는 이메일이 아닌 아이디를 사용합니다.</p>
+    <form id="signupForm">
+      <div class="field"><label for="signupUsername">아이디</label><input id="signupUsername" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="24" pattern="[a-z0-9._-]{3,24}" placeholder="영문 소문자, 숫자, . _ - / 3~24자" required></div>
+      <div class="field"><label for="signupEmail">이메일 (인증 및 비밀번호 복구용)</label><input id="signupEmail" type="email" autocomplete="email" placeholder="본인이 받을 수 있는 이메일" required></div>
+      <div class="field"><label for="signupPassword">비밀번호 (8자 이상)</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div class="field"><label for="signupPasswordConfirm">비밀번호 확인</label><input id="signupPasswordConfirm" type="password" autocomplete="new-password" minlength="8" required></div>
+      <button class="btn dark" type="submit" id="signupSubmit">가입 신청</button>
+    </form>
+    <div class="status" id="signupStatus" aria-live="polite"></div>
   </section>
 </section>
 <main class="wrap hidden" id="appMain"><div class="toolbar"><button class="btn dark" id="newBtn">+ 공연 추가</button><button class="btn" id="logoutBtn">로그아웃</button><button class="btn" id="exportBtn">JSON 내보내기</button><button class="btn" id="importBtn">JSON 불러오기</button><input id="fileInput" type="file" accept=".json,application/json" hidden><button class="btn" id="resetBtn">초기 데이터 복원</button></div><div class="status" id="status">Supabase 연결 대기 중</div><div class="tabs"><button class="tab active" data-tab="events">공연 관리</button><button class="tab" data-tab="anniversaries">기념일 관리</button><button class="tab" data-tab="otherEvents">일반 일정</button><button class="tab" data-tab="aliases">별칭 관리</button><button class="tab owner-only hidden" data-tab="editors">편집자 관리</button></div>
 <section id="eventsTab" class="layout"><aside class="panel"><h2>공연 목록 <span id="count"></span></h2><input id="filter" placeholder="공연명·날짜 검색" style="width:100%;padding:10px;border:1px solid #ddd;margin-bottom:10px"><div class="list" id="eventList"></div></aside><section class="panel"><div id="empty">공연을 선택하거나 새 공연을 추가해 주세요.</div><form id="eventForm" class="hidden"><div class="row"><div class="field"><label>DATE</label><input id="date" type="date" required></div><div class="field"><label>ARTIST</label><input id="artist" placeholder="87dance"></div></div><div class="field"><label>PERFORMANCE TITLE</label><input id="title" required></div><div class="field"><label>VENUE</label><input id="venue"></div><div class="field"><label>SETLIST · 기존 곡을 검색해 선택하거나 직접 추가</label><div class="song-picker"><input id="songSearch" type="search" placeholder="기존 곡 검색… (곡명 또는 별칭)" autocomplete="off"><div class="hint" id="songOptionCount">곡명을 검색하거나 아래 목록에서 선택해 주세요.</div><div class="song-options" id="songOptions"></div></div><div id="songs"></div><div class="actions"><button type="button" class="btn" id="addSong">+ 새 곡 직접 입력</button><button type="button" class="btn" id="pasteSongs">여러 곡 붙여넣기</button></div><p class="hint">곡을 선택하면 아래 셋리스트에 추가됩니다. 같은 곡을 여러 번 추가할 수 있으며, 순서는 화살표로 변경할 수 있습니다. 곡명 앞에 ! 를 붙이면 앵콜, ~ 를 붙이면 협업·게스트 무대로 표시됩니다.</p></div><div class="actions"><button class="btn dark" type="submit">공연 저장</button><button class="btn" type="button" id="deleteBtn">공연 삭제</button></div></form></section></section>
-<section id="aliasesTab" class="panel hidden"><div class="row"><div><h2>곡명 별칭</h2><p class="hint">기준 곡명과 검색어를 관리합니다. 쉼표로 여러 별칭을 구분하세요.</p><div id="songAliasList" class="list"></div></div><div><h2>곡명 별칭 편집</h2><div class="field"><label>CANONICAL SONG NAME</label><input id="songCanonical"></div><div class="field"><label>ALIASES · 쉼표로 구분</label><textarea id="songAliasValues"></textarea></div><div class="actions"><button class="btn dark" id="saveSongAlias">별칭 저장</button><button class="btn" id="deleteSongAlias">삭제</button></div><hr style="border:0;border-top:1px solid #ddd;margin:24px 0"><h2>공연명·장소 별칭</h2><div id="eventAliasList" class="list"></div><div class="field"><label>CANONICAL EVENT / VENUE</label><input id="eventCanonical"></div><div class="field"><label>ALIASES · 쉼표로 구분</label><textarea id="eventAliasValues"></textarea></div><div class="actions"><button class="btn dark" id="saveEventAlias">별칭 저장</button><button class="btn" id="deleteEventAlias">삭제</button></div></div></div></section>
+<section id="aliasesTab" class="panel hidden">
+  <div id="aliasHome">
+    <h2>별칭 관리</h2>
+    <p class="hint">관리할 별칭 종류를 선택해 주세요.</p>
+    <div class="alias-choices">
+      <button class="alias-choice" id="openEventAliases" type="button"><strong>공연 별칭</strong><small>공연명·공연 장소의 검색 별칭 관리</small><span>관리하기 →</span></button>
+      <button class="alias-choice" id="openSongAliases" type="button"><strong>곡 별칭</strong><small>곡명에 연결된 검색 별칭 관리</small><span>관리하기 →</span></button>
+    </div>
+  </div>
+  <div id="songAliasPanel" class="hidden">
+    <div class="alias-section-heading"><button class="btn alias-back" type="button">← 별칭 관리</button><h2>곡 별칭 관리</h2></div>
+    <div class="layout alias-edit-layout">
+      <aside><div class="field"><label for="songAliasSearch">곡 별칭 검색</label><input id="songAliasSearch" type="search" placeholder="곡명 또는 별칭 검색"></div><div class="list" id="songAliasList"></div></aside>
+      <div><h2>곡 별칭 등록 / 수정</h2><p class="hint">기준 곡명과 검색어를 관리합니다. 여러 별칭은 쉼표로 구분하세요.</p>
+        <div class="field"><label for="songCanonical">CANONICAL SONG NAME</label><input id="songCanonical"></div>
+        <div class="field"><label for="songAliasValues">ALIASES · 쉼표로 구분</label><textarea id="songAliasValues"></textarea></div>
+        <div class="actions"><button class="btn dark" id="saveSongAlias" type="button">별칭 저장</button><button class="btn" id="newSongAlias" type="button">새로 입력</button><button class="btn" id="deleteSongAlias" type="button">삭제</button></div>
+      </div>
+    </div>
+  </div>
+  <div id="eventAliasPanel" class="hidden">
+    <div class="alias-section-heading"><button class="btn alias-back" type="button">← 별칭 관리</button><h2>공연 별칭 관리</h2></div>
+    <div class="layout alias-edit-layout">
+      <aside><div class="field"><label for="eventAliasSearch">공연 별칭 검색</label><input id="eventAliasSearch" type="search" placeholder="공연명·장소 또는 별칭 검색"></div><div class="list" id="eventAliasList"></div></aside>
+      <div><h2>공연명·장소 별칭 등록 / 수정</h2><p class="hint">공연명과 장소의 검색어를 관리합니다. 여러 별칭은 쉼표로 구분하세요.</p>
+        <div class="field"><label for="eventCanonical">CANONICAL EVENT / VENUE</label><input id="eventCanonical"></div>
+        <div class="field"><label for="eventAliasValues">ALIASES · 쉼표로 구분</label><textarea id="eventAliasValues"></textarea></div>
+        <div class="actions"><button class="btn dark" id="saveEventAlias" type="button">별칭 저장</button><button class="btn" id="newEventAlias" type="button">새로 입력</button><button class="btn" id="deleteEventAlias" type="button">삭제</button></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="anniversariesTab" class="layout hidden"><aside class="panel"><h2>기념일 목록</h2><div class="list" id="anniversaryList"></div></aside><section class="panel"><h2>기념일 등록 / 수정</h2><form id="anniversaryForm"><div class="field"><label>DATE</label><input id="anniversaryDate" type="date" required></div><div class="field"><label>TITLE</label><input id="anniversaryTitle" required placeholder="예: 87dance 데뷔일"></div><div class="field"><label>반복 방식</label><select id="anniversaryRepeat"><option value="yearly">매년 반복</option><option value="once">해당 연도만</option></select></div><div class="field"><label>DESCRIPTION</label><textarea id="anniversaryDescription" placeholder="기념일 설명 (선택)"></textarea></div><div class="actions"><button class="btn dark" type="submit">기념일 저장</button><button class="btn" type="button" id="anniversaryCancel">새로 입력</button><button class="btn" type="button" id="anniversaryDelete">삭제</button></div></form></section></section>
 <section id="otherEventsTab" class="layout hidden"><aside class="panel"><h2>일반 일정 목록</h2><div class="list" id="otherEventList"></div></aside><section class="panel"><h2>일반 일정 등록 / 수정</h2><form id="otherEventForm"><div class="field"><label>DATE</label><input id="otherDate" type="date" required></div><div class="field"><label>TITLE</label><input id="otherTitle" required placeholder="예: 티켓 오픈"></div><div class="field"><label>LOCATION</label><input id="otherVenue" placeholder="장소 (선택)"></div><div class="field"><label>DESCRIPTION</label><textarea id="otherDescription" placeholder="일정 설명 (선택)"></textarea></div><div class="actions"><button class="btn dark" type="submit">일정 저장</button><button class="btn" type="button" id="otherCancel">새로 입력</button><button class="btn" type="button" id="otherDelete">삭제</button></div></form></section></section>
-<section id="editorsTab" class="panel hidden"><h2>편집 권한 관리</h2><p class="hint">Supabase Auth에 등록되어 있고 아이디가 연결된 사용자를 승인합니다. 승인·삭제는 소유자 계정(dmstp0823)만 가능합니다.</p><div class="row"><div class="field"><label>편집자 아이디</label><input id="editorUsername" type="text" autocapitalize="none" spellcheck="false" placeholder="편집자 아이디"></div><div class="field" style="justify-content:end"><button class="btn dark" id="addEditor" type="button">편집자 승인</button></div></div><div class="list" id="editorList"></div></section>
+<section id="editorsTab" class="panel hidden"><h2>편집 권한 관리</h2><p class="hint">관리자 페이지에서 가입한 사용자가 아래에 자동 표시됩니다. 가입 승인과 편집 권한 삭제는 소유자만 가능합니다.</p><div class="row"><div class="field"><label>직접 아이디 입력하여 승인 (선택)</label><input id="editorUsername" type="text" autocapitalize="none" spellcheck="false" placeholder="편집자 아이디"></div><div class="field" style="justify-content:end"><button class="btn dark" id="addEditor" type="button">편집자 승인</button></div></div><h2 class="editor-subhead">승인 대기 계정 <span id="pendingCount" class="hint"></span></h2><p class="hint">회원가입을 완료한 사용자가 표시됩니다. 이메일 인증을 마친 계정을 승인해 주세요.</p><div class="list" id="pendingEditorList"></div><h2 class="editor-subhead">승인된 편집자</h2><div class="list" id="editorList"></div></section>
 </main><script id="initialData" type="application/json">{
   "performances": [
     {
@@ -760,6 +823,57 @@ const initial=JSON.parse(document.getElementById('initialData').textContent);let
 const SUPABASE_URL='https://iatptvcykpqlhsvjbcsy.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_wDCbjeR04VJ8mXafc4v7dg_hw8bo3lZ';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+// 회원가입용 별도 클라이언트: 가입 시 기존 로그인 세션을 덮어쓰지 않습니다.
+const signupClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{
+  auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}
+});
+function showAuthPanel(which){
+  $('loginPanel').classList.toggle('hidden',which!=='login');
+  $('signupPanel').classList.toggle('hidden',which!=='signup');
+  $('appMain').classList.add('hidden');
+}
+$('openSignup').onclick=()=>{showAuthPanel('signup');$('signupStatus').textContent=''};
+$('backToLogin').onclick=()=>{showAuthPanel('login');$('loginStatus').textContent=''};
+$('signupUsername').addEventListener('input',e=>{e.target.value=e.target.value.toLowerCase()});
+$('signupForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const username=$('signupUsername').value.trim().toLowerCase();
+  const email=$('signupEmail').value.trim();
+  const password=$('signupPassword').value;
+  const confirmPassword=$('signupPasswordConfirm').value;
+  if(!/^[a-z0-9._-]{3,24}$/.test(username)){
+    $('signupStatus').textContent='아이디는 영문 소문자·숫자·. _ - 중 3~24자로 입력해 주세요.';return;
+  }
+  if(password.length<8){$('signupStatus').textContent='비밀번호는 8자 이상 입력해 주세요.';return}
+  if(password!==confirmPassword){$('signupStatus').textContent='비밀번호 확인이 일치하지 않습니다.';return}
+  const submit=$('signupSubmit'); submit.disabled=true;
+  $('signupStatus').textContent='회원가입을 신청하고 있습니다...';
+  try{
+    const {data:result,error}=await signupClient.auth.signUp({
+      email,password,
+      options:{
+        data:{setlist_signup_username:username},
+        emailRedirectTo:'https://yes1-0.github.io/87dance-setlist/admin.html'
+      }
+    });
+    if(error)throw error;
+    if(result?.user?.identities?.length===0){
+      $('signupStatus').textContent='이미 등록된 이메일일 수 있습니다. 기존 계정으로 로그인하거나 관리자에게 문의해 주세요.';
+      return;
+    }
+    // 이메일 확인을 끈 프로젝트에서도 새 계정은 승인 전까지 편집하지 못합니다.
+    if(result?.session)await signupClient.auth.signOut();
+    $('signupStatus').textContent='가입 신청이 접수되었습니다. 이메일로 받은 확인 링크를 누른 뒤, 소유자의 편집자 승인을 기다려 주세요. (프로젝트의 이메일 인증 설정에 따라 확인 메일이 생략될 수 있습니다.)';
+    $('signupPassword').value='';$('signupPasswordConfirm').value='';
+  }catch(err){
+    const m=err?.message||String(err);
+    $('signupStatus').textContent=/email address not authorized/i.test(m)
+      ?'현재 Supabase 이메일 발송이 제한되어 있습니다. 소유자에게 SMTP 설정을 요청해 주세요.'
+      :/database error saving new user/i.test(m)
+      ?'가입 처리에 실패했습니다. 아이디 중복 또는 데이터베이스 설정을 확인해 주세요.'
+      :'가입 실패: '+m;
+  }finally{submit.disabled=false}
+});
 async function saveToCloud(message='저장 완료') { const {error}=await supabaseClient.from('setlist_data').upsert({id:1,data,updated_at:new Date().toISOString()}); if(error) throw error; $('status').textContent=message+' · '+new Date().toLocaleTimeString('ko-KR'); }
 function persist(){renderList();renderAliases();renderExtraLists()}
 async function commitData(message='클라우드 저장 완료'){try{await saveToCloud(message);persist();return true}catch(e){$('status').textContent='저장 실패: '+(e.message||e);alert('클라우드 저장에 실패했습니다. 입력 내용은 화면에 남겨두었습니다.\n'+(e.message||''));return false}}
@@ -771,7 +885,7 @@ async function verifyAndLoad(session){
   if(ownerError)throw new Error('소유자 권한 확인 오류: '+ownerError.message);
   ownerMode=isOwner===true;
   document.querySelectorAll('.owner-only').forEach(el=>el.classList.toggle('hidden',!ownerMode));
-  $('loginPanel').classList.add('hidden');$('appMain').classList.remove('hidden');$('status').textContent='클라우드 데이터 불러오는 중...';
+  $('loginPanel').classList.add('hidden');$('signupPanel').classList.add('hidden');$('appMain').classList.remove('hidden');$('status').textContent='클라우드 데이터 불러오는 중...';
   const {data:row,error}=await supabaseClient.from('setlist_data').select('data').eq('id',1).maybeSingle();if(error)throw error;
   if(row&&row.data){data={...row.data,anniversaries:row.data.anniversaries||[],events:row.data.events||[],performances:row.data.performances||[],songAliases:row.data.songAliases||{},eventAliases:row.data.eventAliases||{}};$('status').textContent='클라우드 데이터 불러오기 완료'}
   else {data={...structuredClone(initial),anniversaries:[],events:[]};await saveToCloud('초기 데이터 등록 완료')}
@@ -809,7 +923,7 @@ $('loginForm').addEventListener('submit',async e=>{
   }
 });
 
-$('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.signOut();$('appMain').classList.add('hidden');$('loginPanel').classList.remove('hidden');$('loginPassword').value='';$('loginStatus').textContent='로그아웃되었습니다.'});
+$('logoutBtn').addEventListener('click',async()=>{await supabaseClient.auth.signOut();showAuthPanel('login');$('loginPassword').value='';$('loginStatus').textContent='로그아웃되었습니다.'});
 supabaseClient.auth.getSession().then(({data})=>handleSession(data.session));function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderList(){const q=$('filter').value.toLowerCase();$('count').textContent='('+data.performances.length+')';$('eventList').innerHTML=data.performances.map((p,i)=>({p,i})).filter(({p})=>(p.title+' '+p.date+' '+p.venue).toLowerCase().includes(q)).map(({p,i})=>`<button class="item ${i===selected?'active':''}" data-i="${i}">${esc(p.title)}<small>${esc(p.date)} · ${esc(p.venue)}</small></button>`).join('');document.querySelectorAll('[data-i]').forEach(b=>b.onclick=()=>selectEvent(+b.dataset.i))}
 function selectEvent(i){selected=i;const p=data.performances[i];$('empty').classList.add('hidden');$('eventForm').classList.remove('hidden');$('date').value=p.date;$('title').value=p.title;$('venue').value=p.venue;$('artist').value=p.artist;renderSongs(p.songs);renderList()}function renderSongs(s) {
@@ -958,9 +1072,77 @@ function renderSongPicker() {
 
 function songRow(v=''){const d=document.createElement('div');d.className='song-row';d.innerHTML=`<input value="${esc(v)}" aria-label="곡명"><button type="button" title="위로">↑</button><button type="button" title="아래로">↓</button><button type="button" title="삭제">×</button>`;d.children[1].onclick=()=>{if(d.previousElementSibling)d.parentNode.insertBefore(d,d.previousElementSibling)};d.children[2].onclick=()=>{if(d.nextElementSibling)d.parentNode.insertBefore(d.nextElementSibling,d)};d.children[3].onclick=()=>d.remove();return d}
 $('songSearch').addEventListener('input', renderSongPicker);$('addSong').onclick=()=> $('songs').append(songRow());$('pasteSongs').onclick=()=>{const t=prompt('곡명을 | 또는 줄바꿈으로 구분해 붙여넣으세요.');if(t!==null){$('songs').innerHTML='';t.split(/[|\n]/).map(x=>x.trim()).filter(Boolean).forEach(x=>$('songs').append(songRow(x)))}};$('newBtn').onclick=()=>{selected=-1;$('empty').classList.add('hidden');$('eventForm').classList.remove('hidden');$('eventForm').reset();$('songs').innerHTML='';$('artist').value='87dance';renderList()};$('eventForm').onsubmit=async e=>{e.preventDefault();const old=structuredClone(data);const p={date:$('date').value,title:$('title').value.trim(),venue:$('venue').value.trim(),artist:$('artist').value.trim(),songs:[...$('songs').querySelectorAll('input')].map(x=>x.value.trim()).filter(Boolean).join('|')};if(selected<0)data.performances.push(p);else data.performances[selected]=p;data.performances.sort((a,b)=>a.date.localeCompare(b.date));if(await commitData('공연 저장 완료')){selected=-1;$('eventForm').reset();$('songs').innerHTML='';$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden');renderList()}else data=old};$('deleteBtn').onclick=async()=>{if(selected>=0&&confirm('이 공연을 삭제할까요?')){const old=structuredClone(data);data.performances.splice(selected,1);if(await commitData('공연 삭제 완료')){selected=-1;$('eventForm').reset();$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden')}else data=old}};$('filter').oninput=renderList;
-function renderAliases(){for(const [key,id] of [['songAliases','songAliasList'],['eventAliases','eventAliasList']])$(id).innerHTML=Object.keys(data[key]).sort().map(k=>`<button class="item" data-alias="${esc(k)}" data-kind="${key}">${esc(k)}<small>${esc(data[key][k].join(', '))}</small></button>`).join('');document.querySelectorAll('[data-alias]').forEach(b=>b.onclick=()=>{const k=b.dataset.kind,canonical=b.dataset.alias; if(k==='songAliases'){selectedSongAlias=canonical;$('songCanonical').value=canonical;$('songAliasValues').value=data[k][canonical].join(', ')}else{selectedEventAlias=canonical;$('eventCanonical').value=canonical;$('eventAliasValues').value=data[k][canonical].join(', ')}})}
-function saveAlias(kind,keyId,valId,selectedKey){const key=$(keyId).value.trim();if(!key)return alert('기준 이름을 입력해 주세요.');const aliases=$(valId).value.split(',').map(x=>x.trim()).filter(Boolean);if(selectedKey&&selectedKey!==key)delete data[kind][selectedKey];data[kind][key]=aliases;persist();return key}
-$('saveSongAlias').onclick=async()=>{const old=structuredClone(data);selectedSongAlias=saveAlias('songAliases','songCanonical','songAliasValues',selectedSongAlias)||selectedSongAlias;if(await commitData('곡 별칭 저장 완료')){$('songCanonical').value='';$('songAliasValues').value='';selectedSongAlias=''}else data=old};$('deleteSongAlias').onclick=()=>{if(selectedSongAlias&&confirm('별칭을 삭제할까요?')){delete data.songAliases[selectedSongAlias];selectedSongAlias='';$('songCanonical').value=$('songAliasValues').value='';persist();commitData('곡 별칭 삭제 완료')}};$('saveEventAlias').onclick=async()=>{const old=structuredClone(data);selectedEventAlias=saveAlias('eventAliases','eventCanonical','eventAliasValues',selectedEventAlias)||selectedEventAlias;if(await commitData('공연 별칭 저장 완료')){$('eventCanonical').value='';$('eventAliasValues').value='';selectedEventAlias=''}else data=old};$('deleteEventAlias').onclick=()=>{if(selectedEventAlias&&confirm('별칭을 삭제할까요?')){delete data.eventAliases[selectedEventAlias];selectedEventAlias='';$('eventCanonical').value=$('eventAliasValues').value='';persist();commitData('공연 별칭 삭제 완료')}};
+function renderAliases(){
+  for(const [kind,id,searchId] of [
+    ['songAliases','songAliasList','songAliasSearch'],
+    ['eventAliases','eventAliasList','eventAliasSearch']
+  ]){
+    const q=($(searchId).value||'').trim().toLocaleLowerCase();
+    $(id).innerHTML=Object.keys(data[kind]).sort((a,b)=>a.localeCompare(b,'ko'))
+      .filter(k=>(k+' '+(data[kind][k]||[]).join(' ')).toLocaleLowerCase().includes(q))
+      .map(k=>`<button class="item" type="button" data-alias="${esc(k)}" data-kind="${kind}">${esc(k)}<small>${esc((data[kind][k]||[]).join(', '))}</small></button>`).join('');
+  }
+  document.querySelectorAll('[data-alias]').forEach(b=>b.onclick=()=>{
+    const k=b.dataset.kind,canonical=b.dataset.alias;
+    if(k==='songAliases'){
+      selectedSongAlias=canonical;$('songCanonical').value=canonical;
+      $('songAliasValues').value=(data[k][canonical]||[]).join(', ');
+    }else{
+      selectedEventAlias=canonical;$('eventCanonical').value=canonical;
+      $('eventAliasValues').value=(data[k][canonical]||[]).join(', ');
+    }
+  });
+}
+function openAliasView(view='home'){
+  $('aliasHome').classList.toggle('hidden',view!=='home');
+  $('songAliasPanel').classList.toggle('hidden',view!=='songs');
+  $('eventAliasPanel').classList.toggle('hidden',view!=='events');
+  if(view!=='home')renderAliases();
+}
+$('openSongAliases').onclick=()=>openAliasView('songs');
+$('openEventAliases').onclick=()=>openAliasView('events');
+document.querySelectorAll('.alias-back').forEach(b=>b.onclick=()=>openAliasView('home'));
+$('songAliasSearch').addEventListener('input',renderAliases);
+$('eventAliasSearch').addEventListener('input',renderAliases);
+$('newSongAlias').onclick=()=>{selectedSongAlias='';$('songCanonical').value='';$('songAliasValues').value='';$('songCanonical').focus()};
+$('newEventAlias').onclick=()=>{selectedEventAlias='';$('eventCanonical').value='';$('eventAliasValues').value='';$('eventCanonical').focus()};
+function saveAlias(kind,keyId,valId,selectedKey){
+  const key=$(keyId).value.trim();
+  if(!key){alert('기준 이름을 입력해 주세요.');return null}
+  const aliases=$(valId).value.split(',').map(x=>x.trim()).filter(Boolean);
+  if(selectedKey&&selectedKey!==key)delete data[kind][selectedKey];
+  data[kind][key]=aliases;
+  return key;
+}
+async function saveAliasAction(kind,keyId,valId,currentSelected,successMsg){
+  const before=structuredClone(data);
+  const key=saveAlias(kind,keyId,valId,currentSelected);
+  if(!key)return;
+  if(await commitData(successMsg)){
+    $(keyId).value='';$(valId).value='';
+    if(kind==='songAliases')selectedSongAlias='';
+    else selectedEventAlias='';
+  }else{
+    data=before;persist();
+  }
+}
+async function deleteAliasAction(kind,selectedKey,keyId,valId,successMsg){
+  if(!selectedKey)return alert('삭제할 별칭을 먼저 선택해 주세요.');
+  if(!confirm('이 별칭을 삭제할까요?'))return;
+  const before=structuredClone(data);
+  delete data[kind][selectedKey];
+  if(await commitData(successMsg)){
+    $(keyId).value='';$(valId).value='';
+    if(kind==='songAliases')selectedSongAlias='';
+    else selectedEventAlias='';
+  }else{
+    data=before;persist();
+  }
+}
+$('saveSongAlias').onclick=()=>saveAliasAction('songAliases','songCanonical','songAliasValues',selectedSongAlias,'곡 별칭 저장 완료');
+$('saveEventAlias').onclick=()=>saveAliasAction('eventAliases','eventCanonical','eventAliasValues',selectedEventAlias,'공연 별칭 저장 완료');
+$('deleteSongAlias').onclick=()=>deleteAliasAction('songAliases',selectedSongAlias,'songCanonical','songAliasValues','곡 별칭 삭제 완료');
+$('deleteEventAlias').onclick=()=>deleteAliasAction('eventAliases',selectedEventAlias,'eventCanonical','eventAliasValues','공연 별칭 삭제 완료');
 
 async function renderExtraLists(){
  if(!$('anniversaryList'))return;
@@ -973,9 +1155,43 @@ $('anniversaryForm').onsubmit=async e=>{e.preventDefault();const old=structuredC
 $('anniversaryCancel').onclick=()=>{editingAnniversary=-1;$('anniversaryForm').reset()};$('anniversaryDelete').onclick=async()=>{if(editingAnniversary<0)return alert('삭제할 기념일을 먼저 선택해 주세요.');if(!confirm('기념일을 삭제할까요?'))return;const old=structuredClone(data);data.anniversaries.splice(editingAnniversary,1);if(await commitData('기념일 삭제 완료')){$('anniversaryForm').reset();editingAnniversary=-1;renderExtraLists()}else data=old};
 $('otherEventForm').onsubmit=async e=>{e.preventDefault();const old=structuredClone(data),x={date:$('otherDate').value,title:$('otherTitle').value.trim(),venue:$('otherVenue').value.trim(),description:$('otherDescription').value.trim()};if(editingOtherEvent<0)data.events.push(x);else data.events[editingOtherEvent]=x;data.events.sort((a,b)=>a.date.localeCompare(b.date));if(await commitData('일정 저장 완료')){editingOtherEvent=-1;$('otherEventForm').reset();renderExtraLists()}else data=old};
 $('otherCancel').onclick=()=>{editingOtherEvent=-1;$('otherEventForm').reset()};$('otherDelete').onclick=async()=>{if(editingOtherEvent<0)return alert('삭제할 일정을 먼저 선택해 주세요.');if(!confirm('일정을 삭제할까요?'))return;const old=structuredClone(data);data.events.splice(editingOtherEvent,1);if(await commitData('일정 삭제 완료')){$('otherEventForm').reset();editingOtherEvent=-1;renderExtraLists()}else data=old};
-async function loadEditors(){const {data,error}=await supabaseClient.rpc('list_setlist_editors');if(error){$('editorList').textContent='편집자 목록을 불러오지 못했습니다: '+error.message;return}$('editorList').innerHTML=(data||[]).map(x=>`<div class="item">${esc(x.username||x.user_id)}<small>${esc(x.created_at||'')}</small><button class="btn" data-remove-editor="${esc(x.user_id)}" type="button">권한 삭제</button></div>`).join('');document.querySelectorAll('[data-remove-editor]').forEach(b=>b.onclick=async()=>{if(!confirm('이 편집자의 권한을 삭제할까요?'))return;const {error}=await supabaseClient.rpc('remove_setlist_editor',{editor_user_id:b.dataset.removeEditor});if(error)alert(error.message);else loadEditors()})}
+async function loadEditors(){
+  if(!ownerMode)return;
+  const [approved,pending]=await Promise.all([
+    supabaseClient.rpc('list_setlist_editors'),
+    supabaseClient.rpc('list_setlist_signup_requests')
+  ]);
+  if(approved.error){
+    $('editorList').textContent='편집자 목록을 불러오지 못했습니다: '+approved.error.message;
+  }else{
+    $('editorList').innerHTML=(approved.data||[]).length
+      ?approved.data.map(x=>`<div class="item">${esc(x.username||x.user_id)}<small>${esc(x.created_at||'')}</small><button class="btn editor-action" data-remove-editor="${esc(x.user_id)}" type="button">권한 삭제</button></div>`).join('')
+      :'<p class="hint">현재 승인된 편집자가 없습니다.</p>';
+    document.querySelectorAll('[data-remove-editor]').forEach(b=>b.onclick=async()=>{
+      if(!confirm('이 편집자의 권한을 삭제할까요?'))return;
+      const {error}=await supabaseClient.rpc('remove_setlist_editor',{editor_user_id:b.dataset.removeEditor});
+      if(error)alert(error.message);else await loadEditors();
+    });
+  }
+  if(pending.error){
+    $('pendingEditorList').textContent='가입 목록을 불러오지 못했습니다: '+pending.error.message;
+    $('pendingCount').textContent='';
+  }else{
+    const requests=pending.data||[];
+    $('pendingCount').textContent=`(${requests.length})`;
+    $('pendingEditorList').innerHTML=requests.length
+      ?requests.map(x=>`<div class="item">${esc(x.username)}<small>${esc(x.confirmed?'이메일 인증 완료':'이메일 인증 대기')} · ${esc(x.registered_at||'')}</small><button type="button" class="btn dark editor-action" data-approve-editor="${esc(x.username)}" ${x.confirmed?'':'disabled'}>편집자 승인</button></div>`).join('')
+      :'<p class="hint">승인을 기다리는 계정이 없습니다.</p>';
+    document.querySelectorAll('[data-approve-editor]').forEach(b=>b.onclick=async()=>{
+      const username=b.dataset.approveEditor;
+      if(!confirm(username+' 계정을 편집자로 승인할까요?'))return;
+      const {error}=await supabaseClient.rpc('add_setlist_editor_by_username',{editor_username:username});
+      if(error)alert('승인 실패: '+error.message);else await loadEditors();
+    });
+  }
+}
 $('addEditor').onclick=async()=>{const username=$('editorUsername').value.trim().toLowerCase();if(!username)return alert('아이디를 입력해 주세요.');const {error}=await supabaseClient.rpc('add_setlist_editor_by_username',{editor_username:username});if(error)alert('승인 실패: '+error.message);else{$('editorUsername').value='';alert('편집 권한을 승인했습니다.');loadEditors()}};
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['events','anniversaries','otherEvents','aliases','editors'].forEach(k=>$(k+'Tab').classList.toggle('hidden',b.dataset.tab!==k));if(b.dataset.tab==='editors'&&ownerMode)loadEditors()});$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='87dance-setlist-data.json';a.click();URL.revokeObjectURL(a.href)};$('importBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{const old=structuredClone(data);try{const x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.performances)||!x.songAliases||!x.eventAliases)throw Error();data={...x,anniversaries:x.anniversaries||[],events:x.events||[]};if(await commitData('JSON 데이터 가져오기 완료')){selected=-1;$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden');alert('불러온 데이터가 클라우드에 저장되었습니다.')}else data=old}catch{alert('올바른 87dance JSON 파일이 아닙니다.')}e.target.value=''};$('resetBtn').onclick=async()=>{if(confirm('초기 데이터로 복원할까요? 클라우드 데이터도 초기화됩니다.')){const old=structuredClone(data);data={...structuredClone(initial),anniversaries:[],events:[]};if(await commitData('초기 데이터 복원 완료')){selected=-1;$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden')}else data=old}};renderList();renderAliases();renderExtraLists();
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{if(b.dataset.tab==='aliases')openAliasView('home');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));['events','anniversaries','otherEvents','aliases','editors'].forEach(k=>$(k+'Tab').classList.toggle('hidden',b.dataset.tab!==k));if(b.dataset.tab==='editors'&&ownerMode)loadEditors()});$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='87dance-setlist-data.json';a.click();URL.revokeObjectURL(a.href)};$('importBtn').onclick=()=>$('fileInput').click();$('fileInput').onchange=async e=>{const old=structuredClone(data);try{const x=JSON.parse(await e.target.files[0].text());if(!Array.isArray(x.performances)||!x.songAliases||!x.eventAliases)throw Error();data={...x,anniversaries:x.anniversaries||[],events:x.events||[]};if(await commitData('JSON 데이터 가져오기 완료')){selected=-1;$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden');alert('불러온 데이터가 클라우드에 저장되었습니다.')}else data=old}catch{alert('올바른 87dance JSON 파일이 아닙니다.')}e.target.value=''};$('resetBtn').onclick=async()=>{if(confirm('초기 데이터로 복원할까요? 클라우드 데이터도 초기화됩니다.')){const old=structuredClone(data);data={...structuredClone(initial),anniversaries:[],events:[]};if(await commitData('초기 데이터 복원 완료')){selected=-1;$('eventForm').classList.add('hidden');$('empty').classList.remove('hidden')}else data=old}};renderList();renderAliases();renderExtraLists();
 // 더블클릭으로 페이지 확대 방지
 document.addEventListener('dblclick', function (event) {
   event.preventDefault();
