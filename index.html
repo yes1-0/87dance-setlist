@@ -879,10 +879,13 @@ function hideReopenButton() {
 // 캘린더
 // ----------------------------------
 
-// 기념일은 "매년 반복"을 선택했을 때 등록 연도와 관계없이 월/일을 기준으로 표시합니다.
+// 매년 반복 기념일은 등록한 날짜부터만 표시합니다.
+// 예: 2026-11-07로 등록 시 2025년에는 표시되지 않고 2026년부터 매년 표시됩니다.
 function anniversaryMatchesDate(item, date) {
   const itemDate = String(item.date || "");
-  if(item.repeat === "yearly") return itemDate.slice(5) === date.slice(5);
+  if(item.repeat === "yearly") {
+    return date >= itemDate && itemDate.slice(5) === date.slice(5);
+  }
   return itemDate === date;
 }
 
@@ -1448,14 +1451,17 @@ function renderSearch() {
         : otherEvents[Number(card.dataset.extraIndex)];
       if(!raw) return;
 
-      // 매년 반복되는 기념일은 현재 캘린더에 선택된 연도로 이동합니다.
+      // 검색에서도 등록 연도 이전으로 이동하지 않습니다.
+      // 등록 연도 이후라면 선택 중인 연도의 같은 기념일로 이동합니다.
       let targetDate = raw.date;
-      if(kind === 'anniversary' && raw.repeat === 'yearly') {
+      if(kind === 'anniversary' && raw.repeat === 'yearly' &&
+         currentMonth.getFullYear() >= Number(raw.date.slice(0,4))) {
         const yearDate = `${currentMonth.getFullYear()}${raw.date.slice(4)}`;
         const candidate = new Date(`${yearDate}T12:00:00`);
         if(!Number.isNaN(candidate.getTime()) &&
            candidate.getFullYear() === currentMonth.getFullYear() &&
-           candidate.getMonth()+1 === Number(raw.date.slice(5,7))) {
+           candidate.getMonth()+1 === Number(raw.date.slice(5,7)) &&
+           candidate.getDate() === Number(raw.date.slice(8,10))) {
           targetDate = yearDate;
         }
       }
